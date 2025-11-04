@@ -1,0 +1,90 @@
+{# templates/admin/sale/new.html.twig #}
+{% extends '@EasyAdmin/crud/new.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <style>
+        .loading-quantities {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+{% endblock %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const productSelect = document.getElementById('sale_product');
+        const quantitySelect = document.getElementById('sale_quantity');
+        const unitPriceInput = document.querySelector('#sale_unit_price input');
+        
+        if (!productSelect || !quantitySelect) return;
+        
+        // Datos de productos disponibles
+        const productsData = {
+            {% for product in products %}
+            {{ product.id }}: {{ product.availableQuantities|json_encode|raw }},
+            {% endfor %}
+        };
+        
+        // Función para actualizar las opciones de cantidad
+        function updateQuantityOptions(productId) {
+            // Limpiar opciones actuales
+            quantitySelect.innerHTML = '<option value="" class="loading-quantities">Cargando cantidades...</option>';
+            
+            if (!productId || !productsData[productId]) {
+                quantitySelect.innerHTML = '<option value="">Selecciona un producto primero</option>';
+                if (unitPriceInput) unitPriceInput.value = '';
+                return;
+            }
+            
+            const availableQuantities = productsData[productId];
+            
+            // Limpiar y agregar nuevas opciones
+            quantitySelect.innerHTML = '<option value="">Selecciona cantidad...</option>';
+            
+            Object.keys(availableQuantities).forEach(quantity => {
+                const price = availableQuantities[quantity];
+                const option = document.createElement('option');
+                option.value = quantity;
+                option.textContent = `${quantity} piezas - $${price}`;
+                option.setAttribute('data-price', price);
+                quantitySelect.appendChild(option);
+            });
+            
+            // Si solo hay una opción, seleccionarla automáticamente
+            if (Object.keys(availableQuantities).length === 1) {
+                quantitySelect.value = Object.keys(availableQuantities)[0];
+                updateUnitPrice();
+            }
+        }
+        
+        // Función para actualizar el precio unitario
+        function updateUnitPrice() {
+            const selectedOption = quantitySelect.options[quantitySelect.selectedIndex];
+            if (selectedOption && selectedOption.value && unitPriceInput) {
+                const price = selectedOption.getAttribute('data-price');
+                unitPriceInput.value = price;
+                
+                // Disparar evento change para recalcular el total
+                const event = new Event('change', { bubbles: true });
+                unitPriceInput.dispatchEvent(event);
+            }
+        }
+        
+        // Event listeners
+        productSelect.addEventListener('change', function() {
+            updateQuantityOptions(this.value);
+        });
+        
+        quantitySelect.addEventListener('change', updateUnitPrice);
+        
+        // Inicializar si ya hay un producto seleccionado (en edición)
+        if (productSelect.value) {
+            updateQuantityOptions(productSelect.value);
+        }
+    });
+    </script>
+{% endblock %}

@@ -1,0 +1,119 @@
+<?php
+// src/Controller/Admin/ProductCrudController.php
+
+namespace App\Controller\Admin;
+
+use App\Entity\Product;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+
+class ProductCrudController extends AbstractCrudController
+{
+    public static function getEntityFqcn(): string
+    {
+        return Product::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Producto')
+            ->setEntityLabelInPlural('Productos')
+            ->setPageTitle('index', 'Gestión de Productos')
+            ->setPageTitle('new', 'Crear Nuevo Producto')
+            ->setPageTitle('edit', 'Editar Producto');
+    }
+
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id')->onlyOnIndex(),
+            
+            TextField::new('name', 'Nombre')
+                ->setHelp('Nombre del producto (ej: Hot Roll, Omakase)'),
+                
+            TextareaField::new('description', 'Descripción')
+                ->setHelp('Describe los ingredientes y características del producto'),
+                
+            ChoiceField::new('category', 'Categoría')
+                ->setChoices([
+                    'Rolls' => 'rolls',
+                    'Combos' => 'combos',
+                    'Especialidades' => 'especialidades',
+                ])
+                ->setHelp('Selecciona la categoría del producto'),
+
+            // Campos de precio como IntegerField
+            IntegerField::new('price1', 'Precio 1 pieza')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 1 pieza (solo números, ej: 18000)'),
+                
+            IntegerField::new('price4', 'Precio 4 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 4 piezas (solo números, ej: 12000)'),
+                
+            IntegerField::new('price6', 'Precio 6 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 6 piezas (solo números, ej: 18000)'),
+                
+            IntegerField::new('price8', 'Precio 8 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 8 piezas (solo números, ej: 20000)'),
+                
+            IntegerField::new('price16', 'Precio 16 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 16 piezas (solo números, ej: 20000)'),
+                
+            IntegerField::new('price20', 'Precio 20 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 20 piezas (solo números, ej: 32500)'),
+                
+            IntegerField::new('price32', 'Precio 32 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 32 piezas (solo números, ej: 40000)'),
+                
+            IntegerField::new('price36', 'Precio 36 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 36 piezas (solo números, ej: 60000)'),
+                
+            IntegerField::new('price40', 'Precio 40 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 40 piezas (solo números, ej: 55000)'),
+                
+            IntegerField::new('price48', 'Precio 48 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 48 piezas (solo números, ej: 85000)'),
+                
+            IntegerField::new('price50', 'Precio 50 piezas')
+                ->setFormTypeOption('attr', ['min' => 0])
+                ->setRequired(false)
+                ->setHelp('Precio para 50 piezas (solo números, ej: 65000)'),
+
+            BooleanField::new('stock', 'En stock')
+                ->setHelp('¿El producto está disponible?'),
+                
+            ImageField::new('image', 'Imagen')
+                ->setBasePath('images/products/')
+                ->setUploadDir('public/images/products/')
+                ->setRequired(false)
+                ->setHelp('Sube una imagen del producto'),
+        ];
+    }
+}

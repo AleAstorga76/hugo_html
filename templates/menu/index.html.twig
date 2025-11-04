@@ -1,0 +1,1029 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuestro Menú | HUGO Sushi{% endblock %}
+{% set show_cart = true %}
+{% block body %}
+<style>
+/* ESTILOS MEJORADOS PARA BOTONES DE CANTIDAD */
+.quantity-option {
+    padding: 0.5rem 0.8rem !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+    border-radius: 0.5rem !important;
+    background: rgba(255,255,255,0.05) !important;
+    color: var(--sushi-white) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    transform: translateY(0) !important;
+    box-shadow: none !important;
+    position: relative !important;
+    font-family: inherit !important;
+    font-size: 0.9rem !important;
+}
+
+/* HOVER - Efecto más visible */
+.quantity-option:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid var(--sushi-red) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3) !important;
+}
+
+/* CLICK - Efecto de selección */
+.quantity-option.active {
+    background: rgba(255, 0, 0, 0.3) !important;
+    border: 2px solid var(--sushi-red) !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4) !important;
+}
+
+/* EN CARRITO - Estado permanente */
+.quantity-option.in-cart {
+    background: var(--sushi-red) !important;
+    border: 1px solid var(--sushi-red) !important;
+    color: white !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* MEJORAR FEEDBACK VISUAL PARA SEGUNDO CLICK */
+.quantity-option.in-cart.active {
+    background: #ff3333 !important;
+    border: 2px solid #ff0000 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6) !important;
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1.05); }
+}
+
+/* CHECKMARK MEJORADO CON CONTADOR */
+.quantity-option.in-cart::after {
+    content: var(--cart-count, "✓");
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 2px solid #1a1a1a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Efecto especial cuando se agrega más unidades */
+.quantity-option.in-cart.adding-more::after {
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: scale(1); }
+    40% { transform: scale(1.3); }
+    60% { transform: scale(1.1); }
+}
+
+/* Hover para items en carrito */
+.quantity-option.in-cart:hover {
+    background: #ff5555 !important;
+    border: 1px solid #ff5555 !important;
+    transform: scale(1.02) !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4) !important;
+}
+
+/* MEJORAR ESTILO DEL CARTEL DE CONFIRMACIÓN */
+.cart-confirmation {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    z-index: 10000;
+    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    font-family: inherit;
+    min-width: 250px;
+    text-align: center;
+}
+
+.cart-confirmation small {
+    opacity: 0.9;
+    font-weight: 400;
+    font-size: 0.85rem;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* MODAL DE AGRADECIMIENTO */
+.thank-you-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
+}
+
+.thank-you-modal.show {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+.thank-you-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    max-width: 500px;
+    width: 90%;
+    color: white;
+}
+
+.thank-you-logo {
+    max-width: 150px;
+    margin: 0 auto 1.5rem;
+    display: block;
+}
+
+.thank-you-logo img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+.thank-you-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--sushi-white);
+    font-weight: 600;
+}
+
+.thank-you-message {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: var(--sushi-gray-light);
+    line-height: 1.5;
+}
+
+.thank-you-close {
+    background: var(--sushi-red);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.thank-you-close:hover {
+    background: #ff5555;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
+<section class="sushi-section menu-section" style="padding: 6rem 0; background: linear-gradient(135deg,#000,#1a1a1a); color: var(--sushi-white);">
+    <div class="container">
+        <!-- Header -->
+        <div class="section-header" style="text-align:center; margin-bottom:3rem;">
+            <span class="sushi-badge badge-primary">Nuestro Menú</span>
+            <h2 class="section-title" style="margin-top:1rem;">Rolls & Combos</h2>
+            <p class="section-subtitle" style="color: var(--sushi-gray-light); margin-top:0.5rem;">
+                Descubre nuestra selección de rolls, especialidades y combos exclusivos, preparados con ingredientes frescos.
+            </p>
+        </div>
+
+        <!-- Categorías -->
+        <div class="menu-categories" style="display:flex; justify-content:center; gap:1rem; margin-bottom:2rem;">
+            <button class="menu-category-btn active" data-category="rolls">Rolls</button>
+            <button class="menu-category-btn" data-category="combos">Combos</button>
+            <button class="menu-category-btn" data-category="especialidades">Especialidades</button>
+        </div>
+
+ 
+<!-- Rolls -->
+<div class="menu-category active" id="rolls">
+    <div class="menu-grid" style="display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:2rem;">
+        {% for roll in rolls %}
+            {% set rollPrices = roll.getAvailablePrices() %}
+            <div class="menu-item" style="background: rgba(255,255,255,0.05); border-radius:1rem; padding:1.8rem; border:1px solid rgba(255,255,255,0.1); backdrop-filter: blur(6px); display:flex; flex-direction:column;">
+                {% if roll.image %}
+                <div class="menu-item-image" style="
+                    background-image: url('{{ asset('images/products/' ~ roll.image) }}');
+                    background-size: cover;
+                    background-position: center;
+                    border-radius: 0.8rem;
+                    height: 180px;
+                    margin-bottom: 1rem;
+                    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                "></div>
+                {% endif %}
+
+                <div class="menu-item-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h4 class="menu-item-title">{{ roll.name }}</h4>
+                    <div class="menu-item-price">
+                        {% if rollPrices is not empty %}
+                            Desde ${{ roll.getMinPrice() }}
+                        {% else %}
+                            Consultar precio
+                        {% endif %}
+                    </div>
+                </div>
+
+                <p class="menu-item-description" style="color: var(--sushi-gray-light); margin-bottom:1rem;">{{ roll.description }}</p>
+
+                <div class="quantity-selector" style="margin-bottom:1rem;">
+                    <label class="quantity-label" style="display:block; margin-bottom:0.5rem;">Selecciona la cantidad:</label>
+                    <div class="quantity-options" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                        {% if rollPrices is not empty %}
+                            {% for quantity, price in rollPrices %}
+                                <button type="button" class="quantity-option" 
+                                        data-product="{{ roll.name }}" 
+                                        data-quantity="{{ quantity }}"
+                                        data-price="{{ roll.getPriceForQuantity(quantity) }}">
+                                    {% if quantity == 1 %}x1 pieza
+                                    {% elseif quantity == 4 %}x4 piezas
+                                    {% elseif quantity == 6 %}x6 piezas
+                                    {% elseif quantity == 8 %}x8 piezas
+                                    {% else %}{{ quantity }} piezas
+                                    {% endif %}
+                                    <span style="margin-left:0.3rem; color: var(--sushi-red);">${{ roll.getFormattedPriceForQuantity(quantity) }}</span>
+                                </button>
+                            {% endfor %}
+                        {% else %}
+                            <p style="color: var(--sushi-orange); font-size:0.9rem;">Precios no disponibles</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="menu-item-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span class="menu-item-badge" style="background: var(--sushi-red); padding:0.2rem 0.6rem; border-radius:0.5rem; font-size:0.8rem;">Roll</span>
+                    {% set firstPrice = rollPrices|first %}
+                    {% if firstPrice is not null %}
+                        {% set firstQuantity = rollPrices|keys|first %}
+                        <button class="menu-item-order sushi-btn sushi-btn-primary"
+                                data-product="{{ roll.name }}"
+                                data-quantity="{{ firstQuantity }}"
+                                data-price="{{ roll.getPriceForQuantity(firstQuantity) }}">
+                            Ordenar
+                        </button>
+                    {% else %}
+                        <button class="menu-item-order sushi-btn sushi-btn-disabled" disabled>
+                            No disponible
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+        <!-- Combos -->
+        <div class="menu-category" id="combos">
+            <div class="menu-grid" style="display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:2rem;">
+                {% for combo in combos %}
+                    {% set comboPrices = combo.getAvailablePrices() %}
+                    <div class="menu-item" style="background: rgba(255,255,255,0.05); border-radius:1rem; padding:1.8rem; border:1px solid rgba(255,255,255,0.1); backdrop-filter: blur(6px); display:flex; flex-direction:column;">
+                        {% if combo.image %}
+                        <div class="menu-item-image" style="
+                            background-image: url('{{ asset('images/products/' ~ combo.image) }}');
+                            background-size: cover;
+                            background-position: center;
+                            border-radius: 0.8rem;
+                            height: 180px;
+                            margin-bottom: 1rem;
+                            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                        "></div>
+                        {% endif %}
+
+                        <div class="menu-item-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                            <h4 class="menu-item-title">{{ combo.name }}</h4>
+                            <div class="menu-item-price">
+                                {% if comboPrices is not empty %}
+                                    {% set minPrice = min(comboPrices) %}
+                                    Desde ${{ minPrice}}
+                                {% else %}
+                                    Consultar precio
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <p class="menu-item-description" style="color: var(--sushi-gray-light); margin-bottom:1rem;">{{ combo.description }}</p>
+
+                        <div class="quantity-selector" style="margin-bottom:1rem;">
+                            <label class="quantity-label" style="display:block; margin-bottom:0.5rem;">Selecciona la cantidad:</label>
+                            <div class="quantity-options" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                {% if comboPrices is not empty %}
+                                    {% for quantity, price in comboPrices %}
+                                        <button type="button" class="quantity-option" 
+                                               data-product="{{ combo.name }}" 
+                                               data-quantity="{{ quantity }}"
+                                               data-price="{{ price|number_format(0, ',', '.') }}">
+                                            {{ quantity }} piezas
+                                            <span style="margin-left:0.3rem; color: var(--sushi-red);">${{ price|number_format(0, ',', '.') }}</span>
+                                        </button>
+                                    {% endfor %}
+                                {% else %}
+                                    <p style="color: var(--sushi-orange); font-size:0.9rem;">Precios no disponibles</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="menu-item-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                            <span class="menu-item-badge" style="background: var(--sushi-red); padding:0.2rem 0.6rem; border-radius:0.5rem; font-size:0.8rem;">Combo</span>
+                            {% set firstPrice = comboPrices|first %}
+                            {% if firstPrice is not null %}
+                                {% set firstQuantity = comboPrices|keys|first %}
+                                <button class="menu-item-order sushi-btn sushi-btn-primary"
+                                        data-product="{{ combo.name }}"
+                                        data-quantity="{{ firstQuantity }}"
+                                        data-price="{{ firstPrice}}">
+                                    Ordenar
+                                </button>
+                            {% else %}
+                                <button class="menu-item-order sushi-btn sushi-btn-disabled" disabled>
+                                    No disponible
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Especialidades -->
+        <div class="menu-category" id="especialidades">
+            <div class="menu-grid" style="display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:2rem;">
+                {% if especialidades is not empty %}
+                    {% for especialidad in especialidades %}
+                        {% set especialidadPrices = especialidad.getAvailablePrices() %}
+                        <div class="menu-item" style="background: rgba(255,255,255,0.05); border-radius:1rem; padding:1.8rem; border:1px solid rgba(255,255,255,0.1); backdrop-filter: blur(6px); display:flex; flex-direction:column;">
+                            {% if especialidad.image %}
+                            <div class="menu-item-image" style="
+                                background-image: url('{{ asset('images/products/' ~ especialidad.image) }}');
+                                background-size: cover;
+                                background-position: center;
+                                border-radius: 0.8rem;
+                                height: 180px;
+                                margin-bottom: 1rem;
+                                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                            "></div>
+                            {% endif %}
+
+                            <div class="menu-item-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                                <h4 class="menu-item-title">{{ especialidad.name }}</h4>
+                                <div class="menu-item-price">
+                                    {% if especialidadPrices is not empty %}
+                                        {% set minPrice = min(especialidadPrices) %}
+                                        Desde ${{ minPrice|number_format(0, ',', '.') }}
+                                    {% else %}
+                                        Consultar precio
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <p class="menu-item-description" style="color: var(--sushi-gray-light); margin-bottom:1rem;">{{ especialidad.description }}</p>
+
+                            <div class="quantity-selector" style="margin-bottom:1rem;">
+                                <label class="quantity-label" style="display:block; margin-bottom:0.5rem;">Selecciona la cantidad:</label>
+                                <div class="quantity-options" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                    {% if especialidadPrices is not empty %}
+                                        {% for quantity, price in especialidadPrices %}
+                                            <button type="button" class="quantity-option quantity-btn" 
+                                                   data-product="{{ especialidad.name }}" 
+                                                   data-quantity="{{ quantity }}"
+                                                   data-price="{{ price|number_format(0, ',', '.') }}">
+                                                {% if quantity == 1 %}x1 pieza
+                                                {% elseif quantity == 4 %}x4 piezas
+                                                {% elseif quantity == 6 %}x6 piezas
+                                                {% elseif quantity == 8 %}x8 piezas
+                                                {% else %}{{ quantity }} piezas
+                                                {% endif %}
+                                                <span style="margin-left:0.3rem; color: var(--sushi-red);">${{ price|number_format(0, ',', '.') }}</span>
+                                            </button>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p style="color: var(--sushi-orange); font-size:0.9rem;">Precios no disponibles</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="menu-item-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                                <span class="menu-item-badge" style="background: var(--sushi-red); padding:0.2rem 0.6rem; border-radius:0.5rem; font-size:0.8rem;color: white;">Especialidad</span>
+                                {% set firstPrice = especialidadPrices|first %}
+                                {% if firstPrice is not null %}
+                                    {% set firstQuantity = especialidadPrices|keys|first %}
+                                    <button class="menu-item-order sushi-btn sushi-btn-primary"
+                                            data-product="{{ especialidad.name }}"
+                                            data-quantity="{{ firstQuantity }}"
+                                            data-price="{{ firstPrice|number_format(0, ',', '.') }}">
+                                        Ordenar
+                                    </button>
+                                {% else %}
+                                    <button class="menu-item-order sushi-btn sushi-btn-disabled" disabled>
+                                        No disponible
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                        <p style="color: var(--sushi-gray-light);">Próximamente más especialidades...</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+// Al inicio del script, crear el carrito vacío
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+// FUNCIÓN MEJORADA: Para mostrar confirmación con contador
+function showCartConfirmation(productName, pieceCount, price, itemCount = 1) {
+    // Eliminar confirmación anterior si existe
+    const existingConfirmation = document.querySelector('.cart-confirmation');
+    if (existingConfirmation) {
+        existingConfirmation.remove();
+    }
+    
+    // Crear nueva confirmación
+    const confirmation = document.createElement('div');
+    confirmation.className = 'cart-confirmation';
+    
+    let message, emoji;
+    
+    if (itemCount === 1) {
+        message = `Agregado: ${productName}`;
+        emoji = "✅";
+    } else if (itemCount === 2) {
+        message = `+1 unidad: ${productName}`;
+        emoji = "🔄";
+    } else {
+        message = `+1 unidad: ${productName}`;
+        emoji = "🚀";
+    }
+    
+    confirmation.innerHTML = `
+        ${emoji} ${message}<br>
+        <small>Total: ${itemCount} ${itemCount > 1 ? 'unidades' : 'unidad'} | ${pieceCount} piezas - $${price}</small>
+    `;
+    
+    document.body.appendChild(confirmation);
+    
+    // Auto-eliminar después de 3 segundos
+    setTimeout(() => {
+        confirmation.style.animation = 'slideIn 0.3s ease reverse';
+        setTimeout(() => confirmation.remove(), 300);
+    }, 3000);
+}
+
+// FUNCIÓN MEJORADA: Para marcar las cantidades en el carrito
+    function highlightCartQuantities() {
+    // Remover clase de todos
+    document.querySelectorAll('.quantity-option').forEach(option => {
+        option.classList.remove('in-cart');
+        option.style.setProperty('--cart-count', ''); // Limpiar variable CSS
+    });
+    
+    // Agregar clase a los que están en el carrito
+    cart.forEach(item => {
+        const options = document.querySelectorAll(`.quantity-option[data-product="${item.name}"][data-quantity="${item.pieceCount}"]`);
+        options.forEach(option => {
+            option.classList.add('in-cart');
+            // Agregar la cantidad como variable CSS
+            option.style.setProperty('--cart-count', `"${item.quantity}"`);
+        });
+    });
+}
+
+// Función para actualizar el contador del carrito
+function updateCartCounter() {
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartCount.textContent = totalItems;
+    }
+}
+
+// FUNCIÓN MEJORADA: Para agregar al carrito con mejor feedback
+function addToCart(productName, price, quantity) {
+    // Encontrar el botón clickeado para dar feedback visual
+    const clickedButton = document.querySelector(`.quantity-option.active[data-product="${productName}"][data-quantity="${quantity}"]`);
+    
+    // Crear un producto
+    const product = {
+        id: Date.now(), // ID único basado en la fecha
+        name: productName,
+        price: parseFloat(price), // Precio del pedido
+        quantity: 1, // Siempre 1 "pedido"
+        pieceCount: parseInt(quantity), // Cantidad de piezas en el pedido
+        total: parseFloat(price) // Total igual al precio del pedido
+    };
+    
+    // Verificar si ya existe el mismo producto
+    const existingIndex = cart.findIndex(item => 
+        item.name === productName && item.pieceCount === parseInt(quantity)
+    );
+    
+    let finalQuantity = 1;
+    
+    if (existingIndex > -1) {
+        // Si ya existe, aumentar la cantidad de "pedidos"
+        cart[existingIndex].quantity += 1;
+        cart[existingIndex].total = cart[existingIndex].price * cart[existingIndex].quantity;
+        finalQuantity = cart[existingIndex].quantity;
+        
+        // Feedback visual para agregar más unidades
+        if (clickedButton) {
+            clickedButton.classList.add('adding-more');
+            setTimeout(() => clickedButton.classList.remove('adding-more'), 500);
+        }
+    } else {
+        // Si no existe, agregar nuevo
+        cart.push(product);
+        finalQuantity = 1;
+    }
+    
+    // Guardar en la memoria del navegador
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // MOSTRAR CONFIRMACIÓN MEJORADA CON CONTADOR
+    showCartConfirmation(productName, quantity, price, finalQuantity);
+    
+    // Actualizar el contador del carrito
+    updateCartCounter();
+    
+    // Actualizar los highlights de cantidades
+    highlightCartQuantities();
+    
+    // Feedback visual del botón
+    if (clickedButton) {
+        clickedButton.classList.add('active');
+        setTimeout(() => clickedButton.classList.remove('active'), 300);
+    }
+}
+
+// Mostrar el carrito
+function showCart() {
+    const modal = document.getElementById('cart-modal');
+    const itemsContainer = document.getElementById('cart-items');
+    const summaryContainer = document.getElementById('cart-summary');
+    
+    // Cargar carrito desde localStorage
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Mostrar productos
+    if (cart.length === 0) {
+        itemsContainer.innerHTML = '<p style="text-align: center; color: #888;">Tu carrito está vacío</p>';
+    } else {
+        itemsContainer.innerHTML = cart.map(item => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #333;">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small style="color: #888;">
+                        ${item.quantity} ${item.quantity > 1 ? 'pedidos' : 'pedido'} 
+                        ${item.pieceCount ? `de ${item.pieceCount} piezas` : ''}
+                    </small>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span>$${item.total}</span>
+                    <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: #ff4444; cursor: pointer; font-size: 1.2rem;">
+                        🗑️
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+        // Calcular y mostrar total
+    const total = cart.reduce((sum, item) => sum + item.total, 0);
+    summaryContainer.innerHTML = `
+        <div style="display: flex; justify-content: space-between;">
+            <strong>Total:</strong>
+            <strong>$${total}</strong>
+        </div>
+    `;
+    
+    modal.style.display = 'block';
+}
+
+// Cerrar el carrito
+function closeCart() {
+    document.getElementById('cart-modal').style.display = 'none';
+}
+
+// Eliminar producto del carrito
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCounter();
+    highlightCartQuantities();
+    showCart();
+}
+
+// FUNCIÓN MEJORADA: Para WhatsApp con formulario de datos
+function sendWhatsAppOrder() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    if (cart.length === 0) {
+        alert('❌ Tu carrito está vacío');
+        return;
+    }
+
+    // Mostrar formulario para datos del cliente
+    showCustomerForm(cart);
+}
+
+// NUEVA FUNCIÓN: Mostrar formulario de datos del cliente
+function showCustomerForm(cart) {
+    const formHtml = `
+        <div id="customer-form" style="
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        ">
+            <div style="
+                background: #1a1a1a;
+                padding: 2rem;
+                border-radius: 1rem;
+                width: 90%;
+                max-width: 500px;
+                border: 1px solid #333;
+                color: white;
+            ">
+                <h3 style="margin-bottom: 1rem;">📋 Completa tus datos</h3>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Nombre completo *</label>
+                    <input type="text" id="customer-name" style="width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #444; background: #2a2a2a; color: white;" required>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Teléfono *</label>
+                    <input type="tel" id="customer-phone" style="width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #444; background: #2a2a2a; color: white;" required>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Dirección de entrega</label>
+                    <textarea id="customer-address" style="width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #444; background: #2a2a2a; color: white; height: 80px;"></textarea>
+                </div>
+                
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem;">Observaciones</label>
+                    <textarea id="customer-observations" style="width: 100%; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #444; background: #2a2a2a; color: white; height: 60px;" placeholder="Ej: Llamar antes de llegar..."></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem;">
+                    <button onclick="closeCustomerForm()" style="flex: 1; padding: 0.8rem; background: #666; color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                        Cancelar
+                    </button>
+                    <button onclick="processOrderWithData()" style="flex: 1; padding: 0.8rem; background: #25D366; color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                        📱 Enviar Pedido
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', formHtml);
+}
+
+// NUEVA FUNCIÓN: Cerrar formulario de cliente
+function closeCustomerForm() {
+    const form = document.getElementById('customer-form');
+    if (form) form.remove();
+}
+
+// NUEVA FUNCIÓN: Procesar pedido con datos del cliente
+function processOrderWithData() {
+    console.log('🔵 processOrderWithData() ejecutándose...');
+    
+    const customerName = document.getElementById('customer-name')?.value;
+    const customerPhone = document.getElementById('customer-phone')?.value;
+    const customerAddress = document.getElementById('customer-address')?.value;
+    const customerObservations = document.getElementById('customer-observations')?.value;
+    
+    console.log('Datos capturados:', { customerName, customerPhone, customerAddress, customerObservations });
+    
+    if (!customerName || !customerPhone) {
+        alert('Por favor completa al menos tu nombre y teléfono');
+        return;
+    }
+    
+    const customerInfo = {
+        name: customerName,
+        phone: customerPhone,
+        address: customerAddress || '',
+        observations: customerObservations || ''
+    };
+    
+    console.log('📦 Enviando datos al sistema...', customerInfo);
+    
+    // Primero guardar en el sistema
+    saveOrderToSystem(customerInfo);
+    
+    // Luego enviar a WhatsApp
+    sendToWhatsApp(customerInfo);
+    
+    closeCustomerForm();
+}
+
+// NUEVA FUNCIÓN: Guardar pedido en el sistema via AJAX
+function saveOrderToSystem(customerInfo) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    console.log('🛒 Carrito a enviar:', cart);
+    console.log('👤 Info cliente:', customerInfo);
+    console.log('🌐 Enviando a: /api/save-order');
+    
+    // Enviar datos al servidor via AJAX
+    fetch('/api/save-order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            cart: cart,
+            customer: customerInfo
+        })
+    })
+    .then(response => {
+        console.log('📨 Respuesta HTTP:', response.status, response.statusText);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('✅ Respuesta del servidor:', data);
+        if (!data.success) {
+            console.error('❌ Error del servidor:', data.error);
+        } else {
+            console.log('🎉 Pedido guardado correctamente. Ventas creadas:', data.sales_count);
+        }
+    })
+    .catch(error => {
+        console.error('💥 Error de conexión:', error);
+        console.log('⚠️ El pedido se envió a WhatsApp pero no se guardó en el sistema');
+    });
+}
+
+// NUEVA FUNCIÓN: Enviar a WhatsApp (separada del guardado)
+function sendToWhatsApp(customerInfo) {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    if (cart.length === 0) {
+        alert('❌ Tu carrito está vacío');
+        return;
+    }
+    
+    // Crear mensaje para WhatsApp con datos del cliente
+    let message = "*PEDIDO HUGO SUSHI*\n\n";
+    
+    // Productos
+    cart.forEach(item => {
+        if (item.pieceCount) {
+            message += `• ${item.quantity} ${item.quantity > 1 ? 'pedidos' : 'pedido'} de ${item.pieceCount} piezas - ${item.name} - $${item.total}\n`;
+        } else {
+            message += `• ${item.quantity}x ${item.name} - $${item.total}\n`;
+        }
+    });
+    
+    const total = cart.reduce((sum, item) => sum + item.total, 0);
+    message += `\n*TOTAL: $${total.toFixed(2)}*\n\n`;
+    
+    // Información del cliente (ya completada)
+    message += "*Información de entrega:*\n";
+    message += `Nombre: ${customerInfo.name}\n`;
+    message += `Teléfono: ${customerInfo.phone}\n`;
+    message += `Dirección: ${customerInfo.address || '_______'}\n\n`;
+    message += `Observaciones: ${customerInfo.observations || '________'}`;
+    
+    // Codificar el mensaje para URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // TU NÚMERO DE WHATSAPP
+    const phoneNumber = "5492901300080";
+    
+    // MOSTRAR MODAL DE AGRADECIMIENTO
+    showThankYouModal();
+    
+    // Abrir WhatsApp después de un breve delay
+    setTimeout(() => {
+        window.open(`https://wa.me/5492901300080?text=${encodedMessage}`, '_blank');
+        
+        // Vaciar el carrito después de enviar el pedido
+        localStorage.removeItem('cart');
+        cart = [];
+        updateCartCounter();
+        highlightCartQuantities();
+    }, 1500);
+}
+
+// FUNCIÓN: Mostrar modal de agradecimiento
+function showThankYouModal() {
+    const modal = document.getElementById('thank-you-modal');
+    if (modal) {
+        // CERRAR EL MODAL DEL CARRITO PRIMERO
+        closeCart();
+        
+        // MOSTRAR MODAL DE AGRADECIMIENTO
+        modal.classList.add('show');
+        
+        // Vaciar el carrito después de enviar el pedido
+        localStorage.removeItem('cart');
+        cart = [];
+        updateCartCounter();
+        highlightCartQuantities();
+    }
+}
+
+// FUNCIÓN: Cerrar modal de agradecimiento
+function closeThankYouModal() {
+    const modal = document.getElementById('thank-you-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Eventos cuando carga la página
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar el contador del carrito
+    updateCartCounter();
+
+    // Marcar las cantidades que ya están en el carrito
+    highlightCartQuantities();
+
+    // Configurar categorías
+    const categoryButtons = document.querySelectorAll('.menu-category-btn');
+    const categories = document.querySelectorAll('.menu-category');
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const category = button.getAttribute('data-category');
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            categories.forEach(cat => cat.classList.remove('active'));
+            document.getElementById(category).classList.add('active');
+        });
+    });
+
+    // CONFIGURACIÓN MEJORADA: Opciones de cantidad
+    const quantityOptions = document.querySelectorAll('.quantity-option');
+    quantityOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.menu-item');
+            
+            // Remover clase active de todos los botones de esta card
+            card.querySelectorAll('.quantity-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            
+            // Agregar clase active al botón clickeado
+            this.classList.add('active');
+            
+            // Actualizar botón de ordenar
+            const orderBtn = card.querySelector('.menu-item-order');
+            orderBtn.setAttribute('data-product', this.getAttribute('data-product'));
+            orderBtn.setAttribute('data-quantity', this.getAttribute('data-quantity'));
+            orderBtn.setAttribute('data-price', this.getAttribute('data-price'));
+            
+            // Actualizar precio display
+            const priceDisplay = card.querySelector('.menu-item-price');
+            priceDisplay.textContent = `$${this.getAttribute('data-price')}`;
+        });
+    });
+
+    // Configurar botones de ordenar
+    const orderButtons = document.querySelectorAll('.menu-item-order');
+    orderButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productName = this.getAttribute('data-product');
+            const price = this.getAttribute('data-price');
+            const quantity = this.getAttribute('data-quantity');
+            if (productName && price && quantity && !this.disabled) {
+                addToCart(productName, price, quantity);
+            } else {
+                alert('Por favor selecciona una cantidad primero.');
+            }
+        });
+    });
+});
+</script>
+
+<!-- Modal del Carrito -->
+<div id="cart-modal" style="
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+">
+    <div style="
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #1a1a1a;
+        padding: 2rem;
+        border-radius: 1rem;
+        width: 90%;
+        max-width: 500px;
+        border: 1px solid #333;
+        color: white;
+    ">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="margin: 0;">🛒 Tu Pedido</h3>
+            <button onclick="closeCart()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">✖</button>
+        </div>
+        
+        <div id="cart-items" style="max-height: 300px; overflow-y: auto; margin-bottom: 1rem;">
+            <!-- Aquí se mostrarán los productos -->
+        </div>
+        
+        <div id="cart-summary" style="border-top: 1px solid #333; padding-top: 1rem; margin-bottom: 1rem;">
+            <!-- Aquí irá el total -->
+        </div>
+        
+        <div style="display: flex; gap: 1rem;">
+            <button onclick="closeCart()" style="flex: 1; padding: 0.8rem; background: #666; color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                Seguir Comprando
+            </button>
+            <button onclick="sendWhatsAppOrder()" style="flex: 1; padding: 0.8rem; background: #25D366; color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                📱 Enviar por WhatsApp
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Agradecimiento -->
+<div id="thank-you-modal" class="thank-you-modal">
+    <div class="thank-you-content">
+        <div class="thank-you-logo">
+            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO Sushi">
+        </div>
+        
+        <h2 class="thank-you-title">¡Gracias por tu compra!</h2>
+        
+        <p class="thank-you-message">
+            No olvides completar el mensaje con tus datos,
+            que ya estamos trabajando en tu pedido.<br>
+            En breve nos contactamos para confirmar la entrega.
+        </p>
+        
+        <button class="thank-you-close" onclick="closeThankYouModal()">
+            Cerrar
+        </button>
+    </div>
+</div>
+{% endblock %}

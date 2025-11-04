@@ -1,0 +1,149 @@
+{# templates/admin/dashboard.html.twig #}
+
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/admin/dashboard-sushi.css') }}">
+{% endblock %}
+
+{% block main %}
+<div class="sushi-dashboard">
+    <!-- Header -->
+    <div class="sushi-dashboard-header">
+        <div class="container-fluid">
+            <h1 class="h2 mb-2">🍣 Panel de Control - Hugo Sushi</h1>
+            <p class="mb-0 opacity-75">Gestión integral de ventas, costos y ganancias</p>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!-- Estadísticas Principales -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="sushi-stat-card revenue">
+                    <div class="sushi-stat-icon">💰</div>
+                    <div class="sushi-stat-number">${{ salesStats.today|number_format(2) }}</div>
+                    <div class="sushi-stat-label">Ventas Hoy (Confirmadas)</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="sushi-stat-card orders">
+                    <div class="sushi-stat-icon">📈</div>
+                    <div class="sushi-stat-number">${{ salesStats.month|number_format(2) }}</div>
+                    <div class="sushi-stat-label">Ventas del Mes (Confirmadas)</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="sushi-stat-card customers">
+                    <div class="sushi-stat-icon">⏳</div>
+                    <div class="sushi-stat-number">{{ salesStats.pending }}</div>
+                    <div class="sushi-stat-label">Pedidos Pendientes</div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="sushi-stat-card products">
+                    <div class="sushi-stat-icon">📊</div>
+                    <div class="sushi-stat-number">${{ profitStats.month|number_format(2) }}</div>
+                    <div class="sushi-stat-label">Ganancia Neta</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Acciones Rápidas -->
+            <div class="col-lg-4 mb-4">
+                <div class="sushi-system-info">
+                    <h4 class="mb-3 sushi-text-gradient">🚀 Acciones Rápidas</h4>
+                    <div class="sushi-actions-grid">
+                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\SaleCrudController') }}" class="sushi-action-btn primary">
+                            <i class="fas fa-plus me-2"></i>Nueva Venta
+                        </a>
+                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\CostCrudController') }}" class="sushi-action-btn secondary">
+                            <i class="fas fa-plus me-2"></i>Registrar Costo
+                        </a>
+                        <a href="{{ ea_url().setController('App\\Controller\\Admin\\ProductCrudController') }}" class="sushi-action-btn success">
+                            <i class="fas fa-utensils me-2"></i>Gestionar Productos
+                        </a>
+                    </div>
+
+                    <!-- Resumen de Rentabilidad -->
+                    <div class="mt-4 pt-3 border-top">
+                        <h6 class="mb-3">📈 Resumen de Rentabilidad</h6>
+                        <div class="sushi-info-grid">
+                            <div class="sushi-info-item">
+                                <div class="sushi-info-label">Margen del Mes</div>
+                                <div class="sushi-info-value {{ profitStats.margin >= 0 ? 'text-success' : 'text-danger' }}">
+                                    {{ profitStats.margin|number_format(1) }}%
+                                </div>
+                            </div>
+                            <div class="sushi-info-item">
+                                <div class="sushi-info-label">Pedidos Pendientes</div>
+                                <div class="sushi-info-value {{ salesStats.pending > 0 ? 'text-warning' : 'text-success' }}">
+                                    {{ salesStats.pending }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ventas Recientes -->
+            <div class="col-lg-4 mb-4">
+                <div class="sushi-activity-timeline">
+                    <h4 class="mb-3 sushi-text-gradient">🛒 Ventas Recientes</h4>
+                    {% for sale in recentSales %}
+                    <div class="sushi-activity-item">
+                        <div class="sushi-activity-icon">
+                            {% if sale.status == 'pending' %}⏳
+                            {% elseif sale.status == 'confirmed' %}✅
+                            {% elseif sale.status == 'cancelled' %}❌
+                            {% else %}💰{% endif %}
+                        </div>
+                        <div class="sushi-activity-content">
+                            <div class="sushi-activity-title">
+                                {{ sale.product ? sale.product.name : 'Producto' }} x{{ sale.quantity }}
+                                {% if sale.status == 'pending' %}
+                                    <span class="sushi-badge" style="background: #ffc107; color: #000;">Pendiente</span>
+                                {% elseif sale.status == 'confirmed' %}
+                                    <span class="sushi-badge" style="background: #28a745;">Confirmado</span>
+                                {% endif %}
+                            </div>
+                            <div class="sushi-activity-time">
+                                ${{ sale.totalAmount }} • {{ sale.saleDate|date('d/m H:i') }}
+                                {% if sale.customerName %}<br><small>Cliente: {{ sale.customerName }}</small>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No hay ventas recientes</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Costos Recientes -->
+            <div class="col-lg-4 mb-4">
+                <div class="sushi-activity-timeline">
+                    <h4 class="mb-3 sushi-text-gradient">💸 Costos Recientes</h4>
+                    {% for cost in recentCosts %}
+                    <div class="sushi-activity-item">
+                        <div class="sushi-activity-icon">📋</div>
+                        <div class="sushi-activity-content">
+                            <div class="sushi-activity-title">
+                                {{ cost.description }}
+                                <span class="sushi-badge">{{ cost.category }}</span>
+                            </div>
+                            <div class="sushi-activity-time">
+                                ${{ cost.amount }} • {{ cost.costDate|date('d/m H:i') }}
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No hay costos recientes</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

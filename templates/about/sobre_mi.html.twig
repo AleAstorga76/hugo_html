@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sobre mí | HUGO Sushi{% endblock %}
+
+{% block body %}
+<section class="sushi-section section-dark about-section" style="padding: 8rem 0;">
+    <div class="container">
+        <!-- Header -->
+        <div class="section-header animate-fade-up" style="text-align: center; margin-bottom: 3rem;">
+            <span class="sushi-badge badge-primary">Sobre mí</span>
+            <h2 class="section-title" style="color: var(--sushi-white); margin-top: 1rem;">La historia detrás del sushi</h2>
+            <p class="section-subtitle" style="color: var(--sushi-gray-light); margin-top: 0.5rem;">
+                Un viaje desde Buenos Aires hasta el fin del mundo, con el sushi como destino.
+            </p>
+        </div>
+
+        <!-- Contenido -->
+       <div class="about-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+    <!-- Texto -->
+    <div class="about-text animate-slide-up" style="background: rgba(255,255,255,0.05); padding: 2.5rem; border-radius: var(--border-radius); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <p style="color: var(--sushi-gray-light); line-height: 1.8; margin-bottom: 1.5rem;">
+            Soy Nicolás Martinez Astorga, y hace algunos años decidí dejar atrás la ciudad de La Plata donde nací,
+            en la provincia de Buenos Aires, y explorar mi propio rumbo.
+            La gastronomía y el sushi eran parte de mi vida desde mucho antes; tuve la oportunidad de
+            perfeccionar mi técnica en reconocidos restaurantes de la ciudad.
+            Al llegar a Ushuaia, el frío del sur y la calidez de su gente me inspiraron a crear mi propio espacio culinario.
+        </p>
+        <p style="color: var(--sushi-gray-light); line-height: 1.8; margin-bottom: 1.5rem;">
+            Hoy, cinco años después, vivo plenamente de mi sueño como <strong>Chef y Sushiman</strong>,
+            agradecido por la comunidad de clientes fieles y amigos que me acompañan en cada paso.
+            Cada roll, cada nigiri, cada plato... lleva un pedacito de esta historia.
+            ¿Por qué Hugo? Por mi abuelo, como homenaje a su alegre presencia en mi vida.
+        </p>
+        <div class="firma">
+            Nicolás Martinez Astorga
+        </div>
+    </div>
+
+    <!-- Foto grande del chef -->
+    <div class="about-chef animate-zoom" style="background-image: url('/images/products/iqui2.png'); background-size: cover; background-position: center; border-radius: var(--border-radius); height: 100%; min-height: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.5);">
+    </div>
+</div>
+
+
+        <!-- Galería -->
+        <div class="about-gallery" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 3rem;">
+            <div class="about-photo animate-zoom" style="background-image: url('/images/products/Combinado1.png');"></div>
+            <div class="about-photo animate-zoom" style="background-image: url('/images/products/Eventos2.png');"></div>
+            <div class="about-photo animate-zoom" style="background-image: url('/images/products/Eventos3.png');"></div>
+        </div>
+    </div>
+</section>
+
+<style>
+
+/* Animaciones suaves */
+.animate-fade-up { opacity:0; transform: translateY(40px); transition: all 0.8s ease; }
+.animate-slide-up { opacity:0; transform: translateY(30px); transition: all 0.9s ease; }
+.animate-zoom { opacity:0; transform: scale(0.95); transition: all 1s ease; }
+.animate-visible { opacity:1 !important; transform: none !important; }
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .about-content { grid-template-columns: 1fr; }
+    .about-gallery { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+    .about-photo { height: 140px; }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const animatedElements = document.querySelectorAll('.animate-fade-up, .animate-slide-up, .animate-zoom');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('animate-visible'); });
+    }, { threshold: 0.2 });
+    animatedElements.forEach(el => observer.observe(el));
+});
+</script>
+{% endblock %}

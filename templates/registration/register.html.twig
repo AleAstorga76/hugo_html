@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro | HUGO Sushi{% endblock %}
+
+{% block body %}
+<section class="sushi-section section-dark" style="padding: 8rem 0 6rem; display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="sign-in-wrapper" style="background: rgba(255,255,255,0.05); border-radius: var(--border-radius); padding: 3rem; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); max-width: 420px; width: 100%;">
+        
+        <h2 style="font-family: var(--font-heading); color: var(--sushi-white); text-align: center; margin-bottom: 2rem;">Crear Cuenta</h2>
+
+        {% if registrationForm.vars.errors|length > 0 %}
+            <div class="form-error" style="background: rgba(255,60,60,0.15); border: 1px solid rgba(255,60,60,0.4); color: #ff6b6b; padding: 0.7rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+                {{ form_errors(registrationForm) }}
+            </div>
+        {% endif %}
+
+        <form method="post" class="contact-form" style="display: grid; gap: 1.8rem;">
+            {{ form_start(registrationForm) }}
+            
+            <div class="form-group">
+                <label for="{{ registrationForm.email.vars.id }}" class="form-label">
+                    <i class="fas fa-envelope" style="margin-right:0.5rem; color: var(--sushi-red);"></i>Email
+                </label>
+                {{ form_widget(registrationForm.email, {
+                    'attr': {
+                        'class': 'form-input',
+                        'placeholder': 'tu@email.com'
+                    }
+                }) }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ registrationForm.plainPassword.vars.id }}" class="form-label">
+                    <i class="fas fa-lock" style="margin-right:0.5rem; color: var(--sushi-red);"></i>Contraseña
+                </label>
+                {{ form_widget(registrationForm.plainPassword, {
+                    'attr': {
+                        'class': 'form-input',
+                        'placeholder': '••••••••'
+                    }
+                }) }}
+            </div>
+
+            <div class="form-group" style="display: flex; align-items: flex-start; gap: 0.8rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                {{ form_widget(registrationForm.agreeTerms, {
+                    'attr': {
+                        'style': 'margin-top: 0.2rem;'
+                    }
+                }) }}
+                <label for="{{ registrationForm.agreeTerms.vars.id }}" style="color: var(--sushi-white); font-size: 0.9rem; line-height: 1.4; cursor: pointer;">
+                    Acepto los <a href="#" style="color: var(--sushi-red); text-decoration: none;">términos y condiciones</a>
+                </label>
+            </div>
+
+            <button type="submit" class="sushi-btn sushi-btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.1rem;">
+                <i class="fas fa-user-plus" style="margin-right:0.5rem;"></i> Crear Cuenta
+            </button>
+
+            {{ form_end(registrationForm) }}
+        </form>
+
+        <p style="text-align:center; color: var(--sushi-gray-light); margin-top: 1.5rem;">
+            ¿Ya tenés cuenta? <a href="{{ path('app_sign_in') }}" style="color: var(--sushi-red); font-weight: 600; text-decoration: none;">Ingresar</a>
+        </p>
+    </div>
+</section>
+
+<style>
+    .form-label {
+        display: block;
+        font-weight: 600;
+        color: var(--sushi-white);
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        font-family: var(--font-body);
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        background: rgba(255,255,255,0.1);
+        color: var(--sushi-white);
+        transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--sushi-red);
+        background: rgba(255,255,255,0.15);
+        box-shadow: 0 0 0 3px rgba(220,38,38,0.2);
+    }
+
+    .form-input::placeholder {
+        color: rgba(255,255,255,0.5);
+    }
+
+    .form-error {
+        text-align: left;
+    }
+
+    /* Estilos para el checkbox */
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--sushi-red);
+        cursor: pointer;
+    }
+
+    /* Estilos para los mensajes de error de los campos */
+    .form-group .invalid-feedback {
+        color: #ff6b6b;
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+        display: block;
+    }
+
+    .form-group.is-invalid .form-input {
+        border-color: #ff6b6b;
+    }
+
+    @media (max-width: 768px) {
+        .sign-in-wrapper {
+            padding: 2rem;
+            margin: 1rem;
+        }
+    }
+</style>
+
+<script>
+// Agregar clases de validación a los campos
+document.addEventListener('DOMContentLoaded', function() {
+    const formInputs = document.querySelectorAll('.form-input');
+    
+    formInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            if (this.value === '') {
+                this.classList.add('is-invalid');
+            } else {
+                this.classList.remove('is-invalid');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
