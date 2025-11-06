@@ -359,6 +359,20 @@ body {
     color: white;
 }
 
+/* Adaptación móvil */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    .nav-left, .nav-right {
+        gap: 1rem;
+    }
+    .logo-img {
+        height: 70px;
+    }
+}
+
 /* ===== SECCIONES ===== */
 .sushi-section {
     padding: var(--section-padding);
@@ -1668,192 +1682,4 @@ button.quantity-option[style] {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-}
-/* NAVBAR RESPONSIVE */
-.sushi-nav {
-    position: relative;
-    z-index: 1000;
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    position: relative;
-}
-
-.nav-left,
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-left {
-    justify-content: flex-start;
-    flex: 1;
-}
-
-.nav-right {
-    justify-content: flex-end;
-    flex: 1;
-}
-
-.sushi-logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1001;
-}
-
-.sushi-logo img {
-    height: 50px;
-    width: auto;
-    transition: transform 0.3s ease;
-}
-
-.sushi-logo:hover img {
-    transform: scale(1.05);
-}
-
-.nav-link {
-    color: var(--sushi-white);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-    white-space: nowrap;
-}
-
-.nav-link:hover {
-    color: var(--sushi-red);
-}
-
-.ingresar-btn {
-    background: var(--sushi-red);
-    padding: 0.5rem 1.5rem;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-}
-
-.ingresar-btn:hover {
-    background: #ff5555;
-    transform: translateY(-2px);
-}
-
-/* RESPONSIVE PARA TABLETS */
-@media (max-width: 1024px) {
-    .nav-container {
-        padding: 1rem;
-    }
-    
-    .nav-left,
-    .nav-right {
-        gap: 1.5rem;
-    }
-    
-    .sushi-logo img {
-        height: 45px;
-    }
-}
-
-/* RESPONSIVE PARA MÓVILES */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-wrap: wrap;
-        padding: 0.8rem 1rem;
-        justify-content: center;
-    }
-    
-    .sushi-logo {
-        position: static;
-        transform: none;
-        order: 1;
-        margin: 0.5rem 0;
-    }
-    
-    .nav-left {
-        order: 2;
-        justify-content: center;
-        flex: 1 1 100%;
-        margin-top: 0.5rem;
-        gap: 1rem;
-    }
-    
-    .nav-right {
-        order: 3;
-        justify-content: center;
-        flex: 1 1 100%;
-        margin-top: 0.5rem;
-        gap: 1rem;
-    }
-    
-    .nav-link {
-        font-size: 0.9rem;
-        padding: 0.3rem 0.8rem;
-    }
-    
-    .ingresar-btn {
-        padding: 0.4rem 1.2rem;
-        font-size: 0.85rem;
-    }
-    
-    .sushi-logo img {
-        height: 40px;
-    }
-}
-
-/* RESPONSIVE PARA MÓVILES PEQUEÑOS */
-@media (max-width: 480px) {
-    .nav-left,
-    .nav-right {
-        gap: 0.8rem;
-        flex-wrap: wrap;
-    }
-    
-    .nav-link {
-        font-size: 0.85rem;
-        padding: 0.2rem 0.6rem;
-    }
-    
-    .ingresar-btn {
-        padding: 0.3rem 1rem;
-        font-size: 0.8rem;
-    }
-    
-    /* Ajustar el carrito para móviles */
-    [style*="position: relative; display: inline-block; margin-right: 1rem;"] {
-        margin-right: 0.5rem !important;
-    }
-    
-    button[onclick="showCart()"] {
-        font-size: 1.3rem !important;
-        padding: 0.3rem !important;
-    }
-    
-    #cart-count {
-        width: 16px !important;
-        height: 16px !important;
-        font-size: 10px !important;
-        top: -3px !important;
-        right: -3px !important;
-    }
-}
-
-/* MENÚ HAMBURGUESA (opcional para pantallas muy pequeñas) */
-@media (max-width: 360px) {
-    .nav-link {
-        font-size: 0.8rem;
-        padding: 0.2rem 0.4rem;
-    }
-    
-    .nav-left,
-    .nav-right {
-        gap: 0.5rem;
-    }
 }
