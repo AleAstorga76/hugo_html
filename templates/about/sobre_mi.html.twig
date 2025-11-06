@@ -3,50 +3,49 @@
 {% block title %}Sobre mí | HUGO Sushi{% endblock %}
 
 {% block body %}
-<section class="sushi-section section-dark about-section" style="padding: 8rem 0;">
+<section class="sushi-section section-dark about-section">
     <div class="container">
         <!-- Header -->
-        <div class="section-header animate-fade-up" style="text-align: center; margin-bottom: 3rem;">
+        <div class="section-header">
             <span class="sushi-badge badge-primary">Sobre mí</span>
-            <h2 class="section-title" style="color: var(--sushi-white); margin-top: 1rem;">La historia detrás del sushi</h2>
-            <p class="section-subtitle" style="color: var(--sushi-gray-light); margin-top: 0.5rem;">
+            <h2 class="section-title">La historia detrás del sushi</h2>
+            <p class="section-subtitle">
                 Un viaje desde Buenos Aires hasta el fin del mundo, con el sushi como destino.
             </p>
         </div>
 
         <!-- Contenido -->
-       <div class="about-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
-    <!-- Texto -->
-    <div class="about-text animate-slide-up" style="background: rgba(255,255,255,0.05); padding: 2.5rem; border-radius: var(--border-radius); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
-        <p style="color: var(--sushi-gray-light); line-height: 1.8; margin-bottom: 1.5rem;">
-            Soy Nicolás Martinez Astorga, y hace algunos años decidí dejar atrás la ciudad de La Plata donde nací,
-            en la provincia de Buenos Aires, y explorar mi propio rumbo.
-            La gastronomía y el sushi eran parte de mi vida desde mucho antes; tuve la oportunidad de
-            perfeccionar mi técnica en reconocidos restaurantes de la ciudad.
-            Al llegar a Ushuaia, el frío del sur y la calidez de su gente me inspiraron a crear mi propio espacio culinario.
-        </p>
-        <p style="color: var(--sushi-gray-light); line-height: 1.8; margin-bottom: 1.5rem;">
-            Hoy, cinco años después, vivo plenamente de mi sueño como <strong>Chef y Sushiman</strong>,
-            agradecido por la comunidad de clientes fieles y amigos que me acompañan en cada paso.
-            Cada roll, cada nigiri, cada plato... lleva un pedacito de esta historia.
-            ¿Por qué Hugo? Por mi abuelo, como homenaje a su alegre presencia en mi vida.
-        </p>
-        <div class="firma">
-            Nicolás Martinez Astorga
+        <div class="about-content">
+            <!-- Texto -->
+            <div class="about-text">
+                <p>
+                    Soy Nicolás Martinez Astorga, y hace algunos años decidí dejar atrás la ciudad de La Plata donde nací,
+                    en la provincia de Buenos Aires, y explorar mi propio rumbo.
+                    La gastronomía y el sushi eran parte de mi vida desde mucho antes; tuve la oportunidad de
+                    perfeccionar mi técnica en reconocidos restaurantes de la ciudad.
+                    Al llegar a Ushuaia, el frío del sur y la calidez de su gente me inspiraron a crear mi propio espacio culinario.
+                </p>
+                <p>
+                    Hoy, cinco años después, vivo plenamente de mi sueño como <strong>Chef y Sushiman</strong>,
+                    agradecido por la comunidad de clientes fieles y amigos que me acompañan en cada paso.
+                    Cada roll, cada nigiri, cada plato... lleva un pedacito de esta historia.
+                    ¿Por qué Hugo? Por mi abuelo, como homenaje a su alegre presencia en mi vida.
+                </p>
+                <div class="firma">
+                    Nicolás Martinez Astorga
+                </div>
+            </div>
+
+            <!-- Foto grande del chef -->
+            <div class="about-chef">
+            </div>
         </div>
-    </div>
-
-    <!-- Foto grande del chef -->
-    <div class="about-chef animate-zoom" style="background-image: url('/images/products/iqui2.png'); background-size: cover; background-position: center; border-radius: var(--border-radius); height: 100%; min-height: 400px; box-shadow: 0 15px 35px rgba(0,0,0,0.5);">
-    </div>
-</div>
-
 
         <!-- Galería -->
-        <div class="about-gallery" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 3rem;">
-            <div class="about-photo animate-zoom" style="background-image: url('/images/products/Combinado1.png');"></div>
-            <div class="about-photo animate-zoom" style="background-image: url('/images/products/Eventos2.png');"></div>
-            <div class="about-photo animate-zoom" style="background-image: url('/images/products/Eventos3.png');"></div>
+        <div class="about-gallery">
+            <div class="about-photo" style="background-image: url('/images/products/Combinado1.png');"></div>
+            <div class="about-photo" style="background-image: url('/images/products/Eventos2.png');"></div>
+            <div class="about-photo" style="background-image: url('/images/products/Eventos3.png');"></div>
         </div>
     </div>
 </section>
@@ -58,17 +57,205 @@
     font-weight: normal;
     font-style: normal;
 }
-/* Animaciones suaves */
-.animate-fade-up { opacity:0; transform: translateY(40px); transition: all 0.8s ease; }
-.animate-slide-up { opacity:0; transform: translateY(30px); transition: all 0.9s ease; }
-.animate-zoom { opacity:0; transform: scale(0.95); transition: all 1s ease; }
-.animate-visible { opacity:1 !important; transform: none !important; }
 
-/* Responsivo */
+/* Variables CSS */
+:root {
+    --sushi-white: #ffffff;
+    --sushi-gray-light: #e0e0e0;
+    --border-radius: 12px;
+    --section-padding: 4rem 0;
+    --mobile-section-padding: 3rem 0;
+}
+
+/* Estilos base para la sección */
+.sushi-section {
+    padding: var(--section-padding);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    color: var(--sushi-white);
+    margin-top: 1rem;
+    font-size: 2.5rem;
+    line-height: 1.2;
+}
+
+.section-subtitle {
+    color: var(--sushi-gray-light);
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Contenido principal */
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.about-text {
+    background: rgba(255,255,255,0.05);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+}
+
+.about-text p {
+    color: var(--sushi-gray-light);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.firma {
+    font-family: 'Brittany Signature', cursive;
+    font-size: 1.8rem;
+    color: var(--sushi-white);
+    margin-top: 1.5rem;
+    text-align: right;
+}
+
+.about-chef {
+    background-image: url('/images/products/iqui2.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--border-radius);
+    height: 100%;
+    min-height: 400px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+
+/* Galería */
+.about-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin-top: 3rem;
+}
+
+.about-photo {
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--border-radius);
+    height: 250px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Animaciones suaves */
+.animate-fade-up { 
+    opacity:0; 
+    transform: translateY(40px); 
+    transition: all 0.8s ease; 
+}
+
+.animate-slide-up { 
+    opacity:0; 
+    transform: translateY(30px); 
+    transition: all 0.9s ease; 
+}
+
+.animate-zoom { 
+    opacity:0; 
+    transform: scale(0.95); 
+    transition: all 1s ease; 
+}
+
+.animate-visible { 
+    opacity:1 !important; 
+    transform: none !important; 
+}
+
+/* Media Queries para Responsive */
+@media (max-width: 1024px) {
+    .about-content {
+        gap: 2rem;
+    }
+    
+    .about-text {
+        padding: 2rem;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+}
+
 @media (max-width: 768px) {
-    .about-content { grid-template-columns: 1fr; }
-    .about-gallery { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
-    .about-photo { height: 140px; }
+    .sushi-section {
+        padding: var(--mobile-section-padding);
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-chef {
+        min-height: 300px;
+        order: -1; /* Coloca la imagen primero en móviles */
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+        padding: 0 1rem;
+    }
+    
+    .about-text p {
+        font-size: 1rem;
+    }
+    
+    .firma {
+        font-size: 1.5rem;
+    }
+    
+    .about-gallery {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .about-photo {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-header {
+        margin-bottom: 2rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .about-text {
+        padding: 1.5rem;
+    }
+    
+    .about-chef {
+        min-height: 250px;
+    }
+    
+    .about-photo {
+        height: 180px;
+    }
+    
+    .firma {
+        font-size: 1.3rem;
+    }
 }
 </style>
 
@@ -76,8 +263,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll('.animate-fade-up, .animate-slide-up, .animate-zoom');
     const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('animate-visible'); });
+        entries.forEach(entry => { 
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-visible'); 
+            }
+        });
     }, { threshold: 0.2 });
+    
     animatedElements.forEach(el => observer.observe(el));
 });
 </script>
