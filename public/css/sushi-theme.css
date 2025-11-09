@@ -1728,9 +1728,9 @@ button.quantity-option[style] {
         gap: 0.2rem; /* Menos espacio entre links */
         z-index: 5;
         position: relative;
-        min-width: 80px;
-        justify-content: center; /* Centra el grupo de links verticalmente */
-        height: 100%; /* Usa toda la altura disponible */
+        min-width: 70px;
+        justify-content:  space-between; /* Centra el grupo de links verticalmente */
+        height: 50%; /* Usa toda la altura disponible */
     }
 
     .nav-left {
@@ -1741,7 +1741,7 @@ button.quantity-option[style] {
 
     .nav-right {
         order: 3;
-        align-items: flex-end;
+        align-items: flex-start;
         margin-left: auto;
     }
 
