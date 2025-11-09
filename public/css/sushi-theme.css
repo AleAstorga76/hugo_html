@@ -5,16 +5,17 @@
     --sushi-red-dark: #b91c1c;
     --sushi-red-light: #fecaca;
     --sushi-white: #ffffff;
-    --sushi-black: #000000; /* Cambiado a negro puro */
+    --sushi-black: #000000;
+    /* Cambiado a negro puro */
     --sushi-gray: #666666;
     --sushi-gray-light: #f8f8f8;
     --sushi-gold: #d97706;
     --sushi-bamboo: #65a30d;
-    
+
     /* Tipografía */
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
-    
+
     /* Espaciados */
     --section-padding: 5rem 0;
     --container-max-width: 1200px;
@@ -98,12 +99,16 @@ body {
     background: var(--sushi-white);
     color: var(--sushi-red);
 }
+
 .sushi-hero {
     position: relative;
-    height: 100vh; /* o 100% si quieres que siempre llene */
+    height: 100vh;
+    /* o 100% si quieres que siempre llene */
     min-height: 700px;
-    margin-top: -100px; /* si tu navbar tiene 100px */
-    padding-top: 100px; /* compensar el navbar */
+    margin-top: -100px;
+    /* si tu navbar tiene 100px */
+    padding-top: 100px;
+    /* compensar el navbar */
     overflow: hidden;
 }
 
@@ -121,7 +126,7 @@ body {
 .hero-logo-img {
     height: 180px;
     width: auto;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
 }
 
 .footer-logo-img {
@@ -176,11 +181,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-        45deg,
-        rgba(0, 0, 0, 0.8) 0%,
-        rgba(220, 38, 38, 0.3) 100%
-    );
+    background: linear-gradient(45deg,
+            rgba(0, 0, 0, 0.8) 0%,
+            rgba(220, 38, 38, 0.3) 100%);
 }
 
 /* Textos diferentes para cada slide */
@@ -221,17 +224,18 @@ body {
 }
 
 /* Slides específicos con overlay más oscuro */
-.slide-1 { 
+.slide-1 {
     background-image: url('/images/products/Sashimi.png');
-    background-color: #1a1a1a; /* Fallback color */
+    background-color: #1a1a1a;
+    /* Fallback color */
 }
 
-.slide-2 { 
+.slide-2 {
     background-image: url('/images/products/MexicanRoll.png');
     background-color: #1a1a1a;
 }
 
-.slide-3 { 
+.slide-3 {
     background-image: url('/images/products/Nigiriebby.png');
     background-color: #1a1a1a;
 }
@@ -282,7 +286,7 @@ body {
 /* === Navbar Moderna === */
 .sushi-nav.scrolled {
     background: rgba(0, 0, 0, 0.9);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .nav-container {
@@ -294,7 +298,8 @@ body {
     align-items: center;
 }
 
-.nav-left, .nav-right {
+.nav-left,
+.nav-right {
     display: flex;
     list-style: none;
     gap: 2rem;
@@ -365,9 +370,12 @@ body {
         flex-direction: column;
         gap: 0.8rem;
     }
-    .nav-left, .nav-right {
+
+    .nav-left,
+    .nav-right {
         gap: 1rem;
     }
+
     .logo-img {
         height: 70px;
     }
@@ -511,6 +519,7 @@ body {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -526,45 +535,45 @@ body {
     :root {
         --section-padding: 3rem 0;
     }
-    
+
     .hero-title {
         font-size: 2.5rem;
     }
-    
+
     .slide-title {
         font-size: 2.5rem;
     }
-    
+
     .logo-img {
         height: 80px;
     }
-    
+
     .hero-logo-img {
         height: 120px;
     }
-    
+
     .footer-logo-img {
         height: 50px;
     }
-    
+
     .nav-menu {
         display: none;
     }
-    
+
     .products-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .section-title {
         font-size: 2.2rem;
     }
-    
+
     .hero-buttons {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .hero-buttons .sushi-btn {
         width: 100%;
         max-width: 300px;
@@ -597,6 +606,7 @@ body {
     background: var(--sushi-red);
     transform: scale(1.2);
 }
+
 /* ===== MENÚ DE SUSHI ===== */
 .menu-section {
     background: linear-gradient(135deg, var(--sushi-black) 0%, #1a1a1a 100%);
@@ -986,38 +996,39 @@ body {
     .menu-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .gallery-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .menu-categories {
         gap: 0.5rem;
     }
-    
+
     .menu-category-btn {
         padding: 0.8rem 1.5rem;
         font-size: 0.8rem;
     }
-    
+
     .menu-item {
         padding: 1.5rem;
     }
-    
+
     .menu-item-header {
         flex-direction: column;
         gap: 0.5rem;
     }
-    
+
     .gallery-filters {
         gap: 0.5rem;
     }
-    
+
     .gallery-filter {
         padding: 0.6rem 1.2rem;
         font-size: 0.9rem;
     }
 }
+
 /* Selectores de cantidad */
 .quantity-selector {
     margin-bottom: 1.5rem;
@@ -1103,76 +1114,77 @@ body {
 
 /* BOTONES */
 .sushi-btn {
-  background: transparent;
-  border: 1px solid var(--sushi-red);
-  color: var(--sushi-red);
-  padding: 0.5rem 1.2rem;
-  border-radius: 25px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    background: transparent;
+    border: 1px solid var(--sushi-red);
+    color: var(--sushi-red);
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .sushi-btn:hover {
-  background: var(--sushi-red);
-  color: white;
+    background: var(--sushi-red);
+    color: white;
 }
 
 .sushi-btn.small {
-  font-size: 0.9rem;
+    font-size: 0.9rem;
 }
 
 /* DROPDOWN */
 .dropdown {
-  position: relative;
+    position: relative;
 }
 
 .dropdown-toggle i {
-  margin-left: 6px;
-  font-size: 0.8rem;
+    margin-left: 6px;
+    font-size: 0.8rem;
 }
 
 .dropdown-menu {
-  position: absolute;
-  top: 110%;
-  right: 0;
-  background: rgba(0, 0, 0, 0.95);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 10px;
-  padding: 0.5rem 0;
-  display: none;
-  min-width: 180px;
-  text-align: right;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 0.5rem 0;
+    display: none;
+    min-width: 180px;
+    text-align: right;
 }
 
 .dropdown-menu a {
-  display: block;
-  color: var(--sushi-white);
-  padding: 0.6rem 1rem;
-  text-decoration: none;
-  transition: background 0.3s;
+    display: block;
+    color: var(--sushi-white);
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    transition: background 0.3s;
 }
 
 .dropdown-menu a:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--sushi-red-light);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--sushi-red-light);
 }
 
 /* Mostrar menú al pasar el mouse */
 .dropdown:hover .dropdown-menu {
-  display: block;
+    display: block;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .nav-menu {
-    display: none;
-  }
+    .nav-menu {
+        display: none;
+    }
 
-  .sushi-logo img {
-    height: 70px;
-  }
+    .sushi-logo img {
+        height: 70px;
+    }
 }
+
 /* === NAVBAR === */
 .sushi-nav {
     position: fixed;
@@ -1181,8 +1193,10 @@ body {
     width: 100%;
     z-index: 1000;
     backdrop-filter: blur(12px);
-    background: rgba(0, 0, 0, 0.4); /* transparente oscuro */
-    border-bottom: none; /* si no quieres línea */
+    background: rgba(0, 0, 0, 0.4);
+    /* transparente oscuro */
+    border-bottom: none;
+    /* si no quieres línea */
     transition: background 0.3s ease, box-shadow 0.3s ease;
     min-height: 80px;
 }
@@ -1235,7 +1249,8 @@ body {
         gap: 0.5rem;
     }
 
-    .nav-left, .nav-right {
+    .nav-left,
+    .nav-right {
         gap: 1rem;
     }
 }
@@ -1284,16 +1299,20 @@ body {
     color: #fff;
     border-color: #e74c3c;
 }
+
 /* --- Navbar logo fix --- */
 .sushi-logo img {
-    height: 70px;   /* ajusta el alto del logo */
-    width: auto;    /* mantiene proporciones */
+    height: 70px;
+    /* ajusta el alto del logo */
+    width: auto;
+    /* mantiene proporciones */
     object-fit: contain;
     transition: transform 0.3s ease;
 }
 
 .sushi-logo img:hover {
-    transform: scale(1.05); /* efecto sutil al pasar el mouse */
+    transform: scale(1.05);
+    /* efecto sutil al pasar el mouse */
 }
 
 /* === LOGIN PAGE STYLES === */
@@ -1396,24 +1415,7 @@ body.login-page {
     border-radius: 8px;
     margin-bottom: 1.5rem;
 }
-/* Agregar al inicio de tu <style> o en sushi-theme.css */
-@font-face {
-    font-family: 'Brittany Signature';
-    src: url('{{ asset("fonts/BrittanySignature.ttf") }}') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
 
-/* Luego aplicar a la firma */
-.firma {
-    font-family: 'Brittany Signature', cursive;
-    font-size: 2rem;
-    color: #e4dedb;
-    text-align: right;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px dashed #f3e7d3;
-}
 .about-section {
     background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
     color: var(--sushi-white);
@@ -1432,7 +1434,7 @@ body.login-page {
 
 .about-text:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(220,38,38,0.3);
+    box-shadow: 0 15px 30px rgba(220, 38, 38, 0.3);
 }
 
 .about-text p {
@@ -1454,14 +1456,15 @@ body.login-page {
     background-size: cover;
     background-position: center;
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .about-photo:hover {
     transform: scale(1.05) rotateY(3deg);
-    box-shadow: 0 15px 30px rgba(220,38,38,0.4);
+    box-shadow: 0 15px 30px rgba(220, 38, 38, 0.4);
 }
+
 .about-gallery {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1471,11 +1474,12 @@ body.login-page {
 
 .about-photo {
     width: 100%;
-    height: 250px; /* Antes 180px, ahora más alto */
+    height: 250px;
+    /* Antes 180px, ahora más alto */
     background-size: cover;
     background-position: center;
     border-radius: var(--border-radius);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1489,11 +1493,16 @@ body.login-page {
     .about-gallery {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     }
+
     .about-photo {
-        height: 200px; /* Ajuste para móviles */
+        height: 200px;
+        /* Ajuste para móviles */
     }
 }
-./* ESTILOS PARA QUANTITY OPTIONS */
+
+.
+
+/* ESTILOS PARA QUANTITY OPTIONS */
 .quantity-option {
     transition: all 0.3s ease !important;
     cursor: pointer !important;
@@ -1509,31 +1518,14 @@ body.login-page {
 /* Reset de los estilos inline */
 button.quantity-option[style] {
     padding: 0.5rem 0.8rem !important;
-    border: 1px solid rgba(255,255,255,0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
     border-radius: 0.5rem !important;
-    background: rgba(255,255,255,0.05) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
     color: var(--sushi-white) !important;
     cursor: pointer !important;
     transition: all 0.3s ease !important;
 }
-/* Agregar al inicio de tu <style> o en sushi-theme.css */
-@font-face {
-    font-family: 'Brittany Signature';
-    src: url('{{ asset("fonts/BrittanySignature.ttf") }}') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
 
-/* Luego aplicar a la firma */
-.firma {
-    font-family: 'Brittany Signature', cursive;
-    font-size: 2rem;
-    color: #c48f6a;
-    text-align: right;
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px dashed #f3e7d3;
-}
 /* CLICK - Efecto de selección MÁS VISIBLE */
 .quantity-option.active {
     background: rgba(255, 0, 0, 0.3) !important;
@@ -1542,6 +1534,7 @@ button.quantity-option[style] {
     transform: translateY(-1px);
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4) !important;
 }
+
 /* MEJORAR ESTILO DEL CARTEL DE CONFIRMACIÓN */
 .cart-confirmation {
     position: fixed;
@@ -1551,11 +1544,11 @@ button.quantity-option[style] {
     color: white;
     padding: 1rem 1.5rem;
     border-radius: 0.8rem;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     z-index: 10000;
     animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 600;
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     font-family: inherit;
     min-width: 250px;
@@ -1573,11 +1566,13 @@ button.quantity-option[style] {
         transform: translateX(100%) translateY(-20px);
         opacity: 0;
     }
+
     to {
         transform: translateX(0) translateY(0);
         opacity: 1;
     }
 }
+
 /* MEJORAR FEEDBACK VISUAL PARA SEGUNDO CLICK */
 .quantity-option.in-cart.active {
     background: #ff3333 !important;
@@ -1588,9 +1583,17 @@ button.quantity-option[style] {
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.08); }
-    100% { transform: scale(1.05); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
 }
 
 /* Efecto especial cuando se agrega más unidades */
@@ -1599,24 +1602,40 @@ button.quantity-option[style] {
 }
 
 @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: scale(1); }
-    40% { transform: scale(1.3); }
-    60% { transform: scale(1.1); }
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.3);
+    }
+
+    60% {
+        transform: scale(1.1);
+    }
 }
+
 /* MODAL DE AGRADECIMIENTO */
 .thank-you-modal {
-    display: none; /* OCULTO POR DEFECTO */
+    display: none;
+    /* OCULTO POR DEFECTO */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.9);
+    background: rgba(0, 0, 0, 0.9);
     z-index: 10000;
 }
 
 .thank-you-modal.show {
-    display: block; /* VISIBLE CUANDO TIENE LA CLASE */
+    display: block;
+    /* VISIBLE CUANDO TIENE LA CLASE */
     animation: fadeIn 0.5s ease;
 }
 
@@ -1629,8 +1648,8 @@ button.quantity-option[style] {
     padding: 3rem;
     border-radius: 1.5rem;
     text-align: center;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     max-width: 500px;
     width: 90%;
     color: white;
@@ -1680,6 +1699,101 @@ button.quantity-option[style] {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* /* ===== RESPONSIVE COMPACTO ===== */
+
+/* MÓVILES - Estructura compacta */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0.5rem 1rem;
+        position: relative;
+        min-height: 70px; /* Mucho más compacto */
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* Centrado vertical general */
+    }
+
+    .nav-left,
+    .nav-right {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem; /* Menos espacio entre links */
+        z-index: 5;
+        position: relative;
+        min-width: 80px;
+        justify-content: center; /* Centra el grupo de links verticalmente */
+        height: 100%; /* Usa toda la altura disponible */
+    }
+
+    .nav-left {
+        order: 1;
+        align-items: flex-start;
+        margin-right: auto;
+    }
+
+    .nav-right {
+        order: 3;
+        align-items: flex-end;
+        margin-left: auto;
+    }
+
+    .sushi-logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        order: 2;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem;
+        white-space: nowrap;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 12px;
+        backdrop-filter: blur(5px);
+        line-height: 1.2; /* Texto más compacto */
+    }
+
+    .logo-img {
+        height: 50px; /* Logo más pequeño */
+        opacity: 0.9;
+    }
+
+    .ingresar-btn {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* MÓVILES PEQUEÑOS - Ultra compacto */
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0.3rem 0.8rem;
+        min-height: 60px; /* Aún más compacto */
+    }
+
+    .nav-link {
+        font-size: 0.75rem;
+        padding: 0.15rem 0.5rem;
+    }
+
+    .logo-img {
+        height: 45px;
+    }
+
+    .nav-left,
+    .nav-right {
+        gap: 0.1rem;
+        min-width: 70px;
+    }
 }
