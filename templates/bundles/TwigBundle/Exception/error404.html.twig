@@ -1,0 +1,40 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}404 | HUGO Sushi{% endblock %}
+
+{% block body %}
+<section class="sushi-section section-dark" style="padding: 8rem 0 6rem; display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div class="error-wrapper" style="background: rgba(255,255,255,0.05); border-radius: var(--border-radius); padding: 3rem; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); max-width: 480px; width: 100%; text-align: center;">
+        
+        <h1 style="font-family: var(--font-heading); color: var(--sushi-white); font-size: 6rem; margin-bottom: 1rem;">Error 404</h1>
+        <h2 style="font-family: var(--font-heading); color: var(--sushi-white); margin-bottom: 1.5rem;">(Volvé para seguir eligiendo el mejor sushi!)</h2>
+        <p style="color: var(--sushi-gray-light); font-size: 1rem; margin-bottom: 2rem;">
+            <a href="{{ path('homepage') }}" class="sushi-btn sushi-btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">
+            <i class="fas fa-home" style="margin-right:0.5rem;"></i> Volver al inicio
+        </a>
+
+    </div>
+</section>
+
+<style>
+/* Animación suave de aparición */
+.error-wrapper {
+    animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .error-wrapper {
+        padding: 2rem;
+    }
+    h1 { font-size: 4.5rem; }
+    h2 { font-size: 1.5rem; }
+}
+</style>
+{% endblock %}
