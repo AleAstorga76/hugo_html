@@ -3,145 +3,236 @@
 {% block title %}Registro | HUGO Sushi{% endblock %}
 
 {% block body %}
-<section class="sushi-section section-dark" style="padding: 8rem 0 6rem; display: flex; justify-content: center; align-items: center; min-height: 80vh;">
-    <div class="sign-in-wrapper" style="background: rgba(255,255,255,0.05); border-radius: var(--border-radius); padding: 3rem; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); max-width: 420px; width: 100%;">
+<section class="sushi-section section-dark" style="padding: clamp(4rem, 8vw, 8rem) 1rem; display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+    <div id="registro-container" style="background: rgba(255,255,255,0.05); border-radius: var(--border-radius); padding: clamp(2rem, 5vw, 3rem); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); max-width: 420px; width: 100%; margin: 0 auto;">
         
-        <h2 style="font-family: var(--font-heading); color: var(--sushi-white); text-align: center; margin-bottom: 2rem;">Crear Cuenta</h2>
+        <h2 class="registro-titulo" style="font-family: var(--font-heading); color: var(--sushi-white); text-align: center; margin-bottom: clamp(1.5rem, 3vw, 2rem); font-size: clamp(1.5rem, 4vw, 2rem);">
+            Crear Cuenta
+        </h2>
 
         {% if registrationForm.vars.errors|length > 0 %}
-            <div class="form-error" style="background: rgba(255,60,60,0.15); border: 1px solid rgba(255,60,60,0.4); color: #ff6b6b; padding: 0.7rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem;">
+            <div class="registro-error" style="background: rgba(255,60,60,0.15); border: 1px solid rgba(255,60,60,0.4); color: #ff6b6b; padding: 0.7rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: clamp(0.85rem, 2vw, 0.9rem); text-align: left;">
                 {{ form_errors(registrationForm) }}
             </div>
         {% endif %}
 
-        <form method="post" class="contact-form" style="display: grid; gap: 1.8rem;">
+        <form method="post" class="registro-form" style="display: grid; gap: clamp(1.2rem, 3vw, 1.8rem);">
             {{ form_start(registrationForm) }}
             
-            <div class="form-group">
-                <label for="{{ registrationForm.email.vars.id }}" class="form-label">
+            <div class="registro-grupo">
+                <label for="{{ registrationForm.email.vars.id }}" class="registro-label">
                     <i class="fas fa-envelope" style="margin-right:0.5rem; color: var(--sushi-red);"></i>Email
                 </label>
                 {{ form_widget(registrationForm.email, {
                     'attr': {
-                        'class': 'form-input',
+                        'class': 'registro-input',
                         'placeholder': 'tu@email.com'
                     }
                 }) }}
             </div>
 
-            <div class="form-group">
-                <label for="{{ registrationForm.plainPassword.vars.id }}" class="form-label">
+            <div class="registro-grupo">
+                <label for="{{ registrationForm.plainPassword.vars.id }}" class="registro-label">
                     <i class="fas fa-lock" style="margin-right:0.5rem; color: var(--sushi-red);"></i>Contraseña
                 </label>
                 {{ form_widget(registrationForm.plainPassword, {
                     'attr': {
-                        'class': 'form-input',
+                        'class': 'registro-input',
                         'placeholder': '••••••••'
                     }
                 }) }}
             </div>
 
-            <div class="form-group" style="display: flex; align-items: flex-start; gap: 0.8rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px;">
+            <div class="registro-grupo registro-checkbox" style="display: flex; align-items: flex-start; gap: 0.8rem; padding: clamp(0.8rem, 2vw, 1rem); background: rgba(255,255,255,0.05); border-radius: 8px;">
                 {{ form_widget(registrationForm.agreeTerms, {
                     'attr': {
-                        'style': 'margin-top: 0.2rem;'
+                        'class': 'registro-checkbox-input'
                     }
                 }) }}
-                <label for="{{ registrationForm.agreeTerms.vars.id }}" style="color: var(--sushi-white); font-size: 0.9rem; line-height: 1.4; cursor: pointer;">
+                <label for="{{ registrationForm.agreeTerms.vars.id }}" class="registro-checkbox-label">
                     Acepto los <a href="#" style="color: var(--sushi-red); text-decoration: none;">términos y condiciones</a>
                 </label>
             </div>
 
-            <button type="submit" class="sushi-btn sushi-btn-primary" style="width: 100%; justify-content: center; padding: 1rem; font-size: 1.1rem;">
+            <button type="submit" class="sushi-btn sushi-btn-primary registro-btn" style="width: 100%; justify-content: center; padding: clamp(0.8rem, 2.5vw, 1rem) 1rem; font-size: clamp(1rem, 2.5vw, 1.1rem);">
                 <i class="fas fa-user-plus" style="margin-right:0.5rem;"></i> Crear Cuenta
             </button>
 
             {{ form_end(registrationForm) }}
         </form>
 
-        <p style="text-align:center; color: var(--sushi-gray-light); margin-top: 1.5rem;">
+        <p class="registro-login-link" style="text-align:center; color: var(--sushi-gray-light); margin-top: clamp(1.2rem, 2.5vw, 1.5rem); font-size: clamp(0.9rem, 2vw, 0.95rem);">
             ¿Ya tenés cuenta? <a href="{{ path('app_sign_in') }}" style="color: var(--sushi-red); font-weight: 600; text-decoration: none;">Ingresar</a>
         </p>
     </div>
 </section>
 
 <style>
-    .form-label {
-        display: block;
-        font-weight: 600;
-        color: var(--sushi-white);
-        margin-bottom: 0.5rem;
-        font-size: 0.95rem;
-        font-family: var(--font-body);
+    /* ESTILOS EXCLUSIVOS Y AISLADOS PARA REGISTRO */
+    #registro-container {
+        --registro-gap: clamp(1.2rem, 3vw, 1.8rem);
+        --registro-padding: clamp(2rem, 5vw, 3rem);
     }
 
-    .form-input {
-        width: 100%;
-        padding: 1rem 1.2rem;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 10px;
-        font-family: var(--font-body);
-        font-size: 1rem;
-        background: rgba(255,255,255,0.1);
-        color: var(--sushi-white);
-        transition: all 0.3s ease;
+    .registro-titulo {
+        font-family: var(--font-heading) !important;
+        color: var(--sushi-white) !important;
     }
 
-    .form-input:focus {
-        outline: none;
-        border-color: var(--sushi-red);
-        background: rgba(255,255,255,0.15);
-        box-shadow: 0 0 0 3px rgba(220,38,38,0.2);
+    .registro-error {
+        word-wrap: break-word !important;
+        border-radius: 8px !important;
     }
 
-    .form-input::placeholder {
-        color: rgba(255,255,255,0.5);
+    .registro-form {
+        display: grid !important;
+        gap: var(--registro-gap) !important;
     }
 
-    .form-error {
-        text-align: left;
+    .registro-grupo {
+        width: 100% !important;
+        margin-bottom: 0 !important; /* Override de tu .form-group */
     }
 
-    /* Estilos para el checkbox */
-    input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: var(--sushi-red);
-        cursor: pointer;
+    .registro-label {
+        display: block !important;
+        font-weight: 600 !important;
+        color: var(--sushi-white) !important;
+        margin-bottom: 0.5rem !important;
+        font-size: clamp(0.9rem, 2vw, 0.95rem) !important;
+        font-family: var(--font-body) !important;
     }
 
-    /* Estilos para los mensajes de error de los campos */
-    .form-group .invalid-feedback {
-        color: #ff6b6b;
-        font-size: 0.8rem;
-        margin-top: 0.5rem;
-        display: block;
+    .registro-input {
+        width: 100% !important;
+        padding: clamp(0.8rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.2rem) !important;
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+        border-radius: clamp(8px, 1.5vw, 10px) !important;
+        font-family: var(--font-body) !important;
+        font-size: clamp(0.95rem, 2vw, 1rem) !important;
+        background: rgba(255,255,255,0.1) !important;
+        color: var(--sushi-white) !important;
+        transition: all 0.3s ease !important;
     }
 
-    .form-group.is-invalid .form-input {
-        border-color: #ff6b6b;
+    .registro-input:focus {
+        outline: none !important;
+        border-color: var(--sushi-red) !important;
+        background: rgba(255,255,255,0.15) !important;
+        box-shadow: 0 0 0 3px rgba(220,38,38,0.2) !important;
     }
 
+    .registro-input::placeholder {
+        color: rgba(255,255,255,0.5) !important;
+    }
+
+    /* Checkbox específico */
+    .registro-checkbox {
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 0.8rem !important;
+        padding: clamp(0.8rem, 2vw, 1rem) !important;
+        background: rgba(255,255,255,0.05) !important;
+        border-radius: 8px !important;
+    }
+
+    .registro-checkbox-input {
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        accent-color: var(--sushi-red) !important;
+        cursor: pointer !important;
+        margin-top: 0.2rem !important;
+    }
+
+    .registro-checkbox-label {
+        color: var(--sushi-white) !important;
+        font-size: clamp(0.85rem, 2vw, 0.9rem) !important;
+        line-height: 1.4 !important;
+        cursor: pointer !important;
+        margin-bottom: 0 !important; /* Override */
+    }
+
+    .registro-checkbox-label a {
+        color: var(--sushi-red) !important;
+        text-decoration: none !important;
+    }
+
+    /* Botón específico */
+    .registro-btn {
+        width: 100% !important;
+        justify-content: center !important;
+        margin-top: 0 !important; /* Override */
+    }
+
+    /* Link de login */
+    .registro-login-link {
+        text-align: center !important;
+        color: var(--sushi-gray-light) !important;
+        margin-top: clamp(1.2rem, 2.5vw, 1.5rem) !important;
+        font-size: clamp(0.9rem, 2vw, 0.95rem) !important;
+    }
+
+    /* RESPONSIVE AISLADO */
     @media (max-width: 768px) {
-        .sign-in-wrapper {
-            padding: 2rem;
-            margin: 1rem;
+        #registro-container {
+            padding: var(--registro-padding) !important;
+            margin: 0 1rem !important;
+            width: calc(100% - 2rem) !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        #registro-container {
+            padding: 2rem 1.5rem !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            min-height: 100vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            width: 100% !important;
+            border-left: none !important;
+            border-right: none !important;
+        }
+        
+        .registro-input {
+            padding: 0.9rem 1rem !important;
+        }
+
+        .registro-checkbox {
+            padding: 0.8rem !important;
+        }
+    }
+
+    @media (max-width: 360px) {
+        .registro-checkbox-input {
+            width: 16px !important;
+            height: 16px !important;
+            min-width: 16px !important;
+        }
+        
+        .registro-checkbox {
+            gap: 0.6rem !important;
         }
     }
 </style>
 
 <script>
-// Agregar clases de validación a los campos
 document.addEventListener('DOMContentLoaded', function() {
-    const formInputs = document.querySelectorAll('.form-input');
+    const registroInputs = document.querySelectorAll('.registro-input');
     
-    formInputs.forEach(input => {
+    registroInputs.forEach(input => {
         input.addEventListener('blur', function() {
             if (this.value === '') {
                 this.classList.add('is-invalid');
             } else {
                 this.classList.remove('is-invalid');
             }
+        });
+        
+        input.addEventListener('input', function() {
+            this.classList.remove('is-invalid');
         });
     });
 });
