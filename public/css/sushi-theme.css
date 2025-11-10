@@ -1,40 +1,39 @@
-/* assets/stylesheets/sushi-theme.css */
+/* ========== VARIABLES Y BASE ========== */
 :root {
-    /* Paleta Sushi Elegante CORREGIDA */
     --sushi-red: #dc2626;
     --sushi-red-dark: #b91c1c;
     --sushi-red-light: #fecaca;
     --sushi-white: #ffffff;
     --sushi-black: #000000;
-    /* Cambiado a negro puro */
     --sushi-gray: #666666;
     --sushi-gray-light: #f8f8f8;
     --sushi-gold: #d97706;
     --sushi-bamboo: #65a30d;
-
-    /* Tipografía */
+    
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Inter', sans-serif;
-
-    /* Espaciados */
-    --section-padding: 5rem 0;
-    --container-max-width: 1200px;
+    
     --border-radius: 15px;
+    --container-max-width: 1200px;
 }
 
-/* ===== RESET Y BASE ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: var(--font-body);
     line-height: 1.6;
-    color: var(--sushi-black);
-    background: var(--sushi-white);
+    color: var(--sushi-white);
+    background: var(--sushi-black) !important;
     overflow-x: hidden;
+    padding-top: 0 !important;
 }
 
 .container {
@@ -43,7 +42,230 @@ body {
     padding: 0 2rem;
 }
 
-/* ===== COMPONENTES REUTILIZABLES ===== */
+/* ========== NAVBAR COMPLETO (con efecto translúcido) ========== */
+.navbar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 40%, transparent 80%);
+    z-index: 998;
+    pointer-events: none;
+}
+
+.sushi-nav {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 999 !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(15px) !important;
+    border-bottom: 1px solid rgba(3, 3, 3, 0);
+    min-height: 80px;
+}
+
+.nav-container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0.8rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-left,
+.nav-right {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-left {
+    justify-content: flex-start;
+}
+
+.sushi-logo {
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: static !important;
+    transform: none !important;
+}
+
+.nav-right {
+    justify-content: flex-end;
+}
+
+.logo-img {
+    height: 70px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    color: var(--sushi-white);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    white-space: nowrap;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--sushi-red);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover {
+    color: var(--sushi-red);
+}
+
+.nav-link:hover::after {
+    width: 60%;
+}
+
+.ingresar-btn {
+    background: var(--sushi-red);
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+.ingresar-btn:hover {
+    background: var(--sushi-red-dark);
+    color: var(--sushi-white);
+}
+
+/* ========== CARRITO (Desktop y Móvil Flotante) ========== */
+.cart-desktop {
+    display: block;
+}
+
+.cart-icon-btn {
+    background: none;
+    border: none;
+    color: var(--sushi-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    position: relative;
+}
+
+.cart-count-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4444;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.cart-floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background: var(--sushi-red);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    z-index: 1001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.cart-floating-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(220, 38, 38, 0.4);
+}
+
+/* ========== SECCIONES UNIVERSALES ========== */
+main {
+    display: block;
+    margin-top: 0 !important;
+    padding-top: 80px !important;
+}
+
+.sushi-section {
+    position: relative;
+    padding: 6rem 0;
+}
+
+.section-dark {
+    background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, var(--sushi-black) 100%);
+    padding: 8rem 0 6rem !important;
+}
+
+.section-light {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(5px);
+}
+
+.hero-section {
+    position: relative;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    padding: 8rem 0 6rem;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%);
+    z-index: 1;
+}
+
+.hero-content,
+.section-header {
+    position: relative;
+    z-index: 2;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .sushi-badge {
     display: inline-block;
     padding: 0.5rem 1.5rem;
@@ -52,6 +274,7 @@ body {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+    margin-bottom: 1.5rem;
 }
 
 .badge-primary {
@@ -59,88 +282,21 @@ body {
     color: var(--sushi-white);
 }
 
-.badge-light {
-    background: var(--sushi-red-light);
-    color: var(--sushi-red-dark);
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    line-height: 1.2;
 }
 
-.sushi-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem 2.5rem;
-    border: none;
-    border-radius: 50px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    font-size: 1.1rem;
+.section-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
 }
-
-.sushi-btn-primary {
-    background: var(--sushi-red);
-    color: var(--sushi-white);
-}
-
-.sushi-btn-primary:hover {
-    background: var(--sushi-red-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
-}
-
-.sushi-btn-outline {
-    background: transparent;
-    color: var(--sushi-white);
-    border: 2px solid var(--sushi-white);
-}
-
-.sushi-btn-outline:hover {
-    background: var(--sushi-white);
-    color: var(--sushi-red);
-}
-
-.sushi-hero {
-    position: relative;
-    height: 100vh;
-    /* o 100% si quieres que siempre llene */
-    min-height: 700px;
-    margin-top: -100px;
-    /* si tu navbar tiene 100px */
-    padding-top: 100px;
-    /* compensar el navbar */
-    overflow: hidden;
-}
-
-/* ===== LOGOS ===== */
-.logo-img {
-    height: 90px;
-    width: auto;
-}
-
-.hero-logo {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.hero-logo-img {
-    height: 180px;
-    width: auto;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
-}
-
-.footer-logo-img {
-    height: 70px;
-    width: auto;
-}
-
-.sushi-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* ===== HERO CAROUSEL MEJORADO ===== */
+/* ========== HERO Y CARRUSEL DE IMAGENES ========== */
 .sushi-hero {
     position: relative;
     height: 100vh;
@@ -186,7 +342,6 @@ body {
             rgba(220, 38, 38, 0.3) 100%);
 }
 
-/* Textos diferentes para cada slide */
 .slide-content {
     position: relative;
     z-index: 3;
@@ -206,6 +361,7 @@ body {
     margin-bottom: 1.5rem;
     display: inline-block;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .slide-title {
@@ -223,365 +379,7 @@ body {
     font-weight: 300;
 }
 
-/* Slides específicos con overlay más oscuro */
-.slide-1 {
-    background-image: url('/images/products/Sashimi.png');
-    background-color: #1a1a1a;
-    /* Fallback color */
-}
-
-.slide-2 {
-    background-image: url('/images/products/MexicanRoll.png');
-    background-color: #1a1a1a;
-}
-
-.slide-3 {
-    background-image: url('/images/products/Nigiriebby.png');
-    background-color: #1a1a1a;
-}
-
-/* Contenido del Hero Principal */
-.sushi-hero-content {
-    position: relative;
-    z-index: 10;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--sushi-white);
-}
-
-.hero-text {
-    text-align: center;
-    max-width: 800px;
-    padding: 0 2rem;
-}
-
-.hero-badge {
-    margin-bottom: 1.5rem;
-}
-
-.hero-title {
-    font-family: var(--font-heading);
-    font-size: 4rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1.1;
-}
-
-.hero-subtitle {
-    font-size: 1.3rem;
-    margin-bottom: 2.5rem;
-    opacity: 0.9;
-    font-weight: 300;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-/* === Navbar Moderna === */
-.sushi-nav.scrolled {
-    background: rgba(0, 0, 0, 0.9);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0.8rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.nav-left,
-.nav-right {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-    margin: 0;
-    padding: 0;
-}
-
-.nav-link {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 1rem;
-    transition: color 0.3s;
-    position: relative;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: #dc2626;
-    transition: all 0.3s ease;
-    transform: translateX(-50%);
-}
-
-.nav-link:hover {
-    color: #dc2626;
-}
-
-.nav-link:hover::after {
-    width: 60%;
-}
-
-.sushi-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 auto;
-}
-
-.logo-img {
-    height: 95px;
-    transition: transform 0.3s ease;
-}
-
-.logo-img:hover {
-    transform: scale(1.05);
-}
-
-.ingresar-btn {
-    background: #dc2626;
-    padding: 0.4rem 1rem;
-    border-radius: 30px;
-    font-weight: 600;
-}
-
-.ingresar-btn:hover {
-    background: #f87171;
-    color: white;
-}
-
-/* Adaptación móvil */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-
-    .nav-left,
-    .nav-right {
-        gap: 1rem;
-    }
-
-    .logo-img {
-        height: 70px;
-    }
-}
-
-/* ===== SECCIONES ===== */
-.sushi-section {
-    padding: var(--section-padding);
-    background: var(--sushi-white);
-}
-
-.section-dark {
-    background: var(--sushi-black);
-    color: var(--sushi-white);
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.section-badge {
-    margin-bottom: 1rem;
-}
-
-.section-title {
-    font-family: var(--font-heading);
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-}
-
-.section-subtitle {
-    font-size: 1.2rem;
-    opacity: 0.8;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* ===== CARDS DE PRODUCTOS MEJORADAS ===== */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
-    margin-top: 3rem;
-}
-
-.product-card {
-    background: var(--sushi-white);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    border: 1px solid var(--sushi-gray-light);
-}
-
-.product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-.product-image {
-    height: 250px;
-    background: var(--sushi-gray-light);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-.product-content {
-    padding: 1.5rem;
-}
-
-.product-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--sushi-black);
-}
-
-.product-description {
-    color: var(--sushi-gray);
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-    line-height: 1.5;
-}
-
-.product-price {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--sushi-red);
-}
-
-/* ===== FOOTER ===== */
-.sushi-footer {
-    background: var(--sushi-black);
-    color: var(--sushi-white);
-    padding: 4rem 0 2rem;
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 3rem;
-    margin-bottom: 3rem;
-}
-
-.footer-heading {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    color: var(--sushi-white);
-}
-
-.footer-links {
-    list-style: none;
-}
-
-.footer-link {
-    color: var(--sushi-gray-light);
-    text-decoration: none;
-    margin-bottom: 0.8rem;
-    display: block;
-    transition: color 0.3s ease;
-}
-
-.footer-link:hover {
-    color: var(--sushi-red);
-}
-
-.footer-bottom {
-    border-top: 1px solid var(--sushi-gray);
-    padding-top: 2rem;
-    text-align: center;
-    opacity: 0.7;
-}
-
-/* ===== ANIMACIONES ===== */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
-    :root {
-        --section-padding: 3rem 0;
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .slide-title {
-        font-size: 2.5rem;
-    }
-
-    .logo-img {
-        height: 80px;
-    }
-
-    .hero-logo-img {
-        height: 120px;
-    }
-
-    .footer-logo-img {
-        height: 50px;
-    }
-
-    .nav-menu {
-        display: none;
-    }
-
-    .products-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .section-title {
-        font-size: 2.2rem;
-    }
-
-    .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .hero-buttons .sushi-btn {
-        width: 100%;
-        max-width: 300px;
-        justify-content: center;
-    }
-}
-
-/* Indicadores del carousel */
+/* Indicadores del carrusel (opcional) */
 .carousel-indicators {
     position: absolute;
     bottom: 2rem;
@@ -606,13 +404,7 @@ body {
     background: var(--sushi-red);
     transform: scale(1.2);
 }
-
-/* ===== MENÚ DE SUSHI ===== */
-.menu-section {
-    background: linear-gradient(135deg, var(--sushi-black) 0%, #1a1a1a 100%);
-    color: var(--sushi-white);
-}
-
+/* ========== COMPONENTES DE MENÚ ========== */
 .menu-categories {
     display: flex;
     justify-content: center;
@@ -657,33 +449,16 @@ body {
     display: block;
 }
 
-.category-title {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    text-align: center;
-    margin-bottom: 3rem;
-    color: var(--sushi-red);
-    position: relative;
-}
-
-.category-title::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background: var(--sushi-red);
-}
-
 .menu-item {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255,255,255,0.05);
     border-radius: var(--border-radius);
     padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255,255,255,0.1);
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .menu-item:hover {
@@ -692,9 +467,18 @@ body {
     box-shadow: 0 15px 30px rgba(220, 38, 38, 0.2);
 }
 
+.menu-item-image {
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.8rem;
+    height: 180px;
+    margin-bottom: 1rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
 .menu-item-header {
     display: flex;
-    justify-content: between;
+    justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 1rem;
     gap: 1rem;
@@ -721,26 +505,11 @@ body {
     opacity: 0.9;
 }
 
-.menu-item-ingredients {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.ingredient-tag {
-    background: rgba(220, 38, 38, 0.2);
-    color: var(--sushi-red-light);
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
 .menu-item-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: auto;
 }
 
 .menu-item-badge {
@@ -769,267 +538,7 @@ body {
     transform: scale(1.05);
 }
 
-/* ===== GALERÍA DE ROLLS ===== */
-.gallery-section {
-    background: var(--sushi-white);
-}
-
-.gallery-filters {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-    flex-wrap: wrap;
-}
-
-.gallery-filter {
-    padding: 0.8rem 1.5rem;
-    border: 2px solid var(--sushi-gray-light);
-    background: var(--sushi-white);
-    color: var(--sushi-gray);
-    border-radius: 25px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.gallery-filter.active,
-.gallery-filter:hover {
-    border-color: var(--sushi-red);
-    background: var(--sushi-red);
-    color: var(--sushi-white);
-    transform: translateY(-2px);
-}
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.gallery-item {
-    position: relative;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.gallery-item:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-.gallery-image {
-    width: 100%;
-    height: 300px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-image {
-    transform: scale(1.1);
-}
-
-.gallery-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
-    padding: 2rem 1.5rem 1.5rem;
-    color: var(--sushi-white);
-    transform: translateY(100%);
-    transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-overlay {
-    transform: translateY(0);
-}
-
-.gallery-item-title {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.gallery-item-description {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    margin-bottom: 1rem;
-}
-
-.gallery-item-price {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--sushi-red);
-}
-
-/* Modal de la galería */
-.gallery-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 2000;
-    align-items: center;
-    justify-content: center;
-}
-
-.gallery-modal.active {
-    display: flex;
-}
-
-.modal-content {
-    position: relative;
-    max-width: 90%;
-    max-height: 90%;
-    background: var(--sushi-white);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-}
-
-.modal-image {
-    width: 100%;
-    height: auto;
-    max-height: 70vh;
-    object-fit: cover;
-}
-
-.modal-info {
-    padding: 2rem;
-}
-
-.modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: var(--sushi-red);
-    color: var(--sushi-white);
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    cursor: pointer;
-    z-index: 2001;
-    transition: all 0.3s ease;
-}
-
-.modal-close:hover {
-    background: var(--sushi-red-dark);
-    transform: scale(1.1);
-}
-
-/* ===== ESPECIALIDADES DESTACADAS ===== */
-.specials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.special-card {
-    background: var(--sushi-white);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.special-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-}
-
-.special-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: var(--sushi-red);
-    color: var(--sushi-white);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    z-index: 2;
-}
-
-.special-image {
-    height: 200px;
-    background-size: cover;
-    background-position: center;
-}
-
-.special-content {
-    padding: 1.5rem;
-}
-
-.special-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--sushi-black);
-}
-
-.special-description {
-    color: var(--sushi-gray);
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-}
-
-.special-price {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--sushi-red);
-}
-
-/* Responsive para menú y galería */
-@media (max-width: 768px) {
-    .menu-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .gallery-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .menu-categories {
-        gap: 0.5rem;
-    }
-
-    .menu-category-btn {
-        padding: 0.8rem 1.5rem;
-        font-size: 0.8rem;
-    }
-
-    .menu-item {
-        padding: 1.5rem;
-    }
-
-    .menu-item-header {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .gallery-filters {
-        gap: 0.5rem;
-    }
-
-    .gallery-filter {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
-    }
-}
-
-/* Selectores de cantidad */
+/* ========== SELECTORES DE CANTIDAD ========== */
 .quantity-selector {
     margin-bottom: 1.5rem;
 }
@@ -1038,7 +547,7 @@ body {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: var(--sushi-gray);
+    color: var(--sushi-white);
     font-size: 0.9rem;
 }
 
@@ -1049,39 +558,15 @@ body {
 }
 
 .quantity-option {
-    background: var(--sushi-gray-light);
-    border: 2px solid transparent;
-    border-radius: 8px;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: var(--sushi-gray);
-}
-
-.quantity-option:hover {
-    background: var(--sushi-red-light);
-    color: var(--sushi-red-dark);
-}
-
-.quantity-option.active {
-    background: var(--sushi-red);
-    color: var(--sushi-white);
-    border-color: var(--sushi-red);
-}
-
-/* Selectores de cantidad con precios */
-.quantity-option {
-    background: var(--sushi-gray-light);
-    border: 2px solid transparent;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
     border-radius: 8px;
     padding: 0.8rem 1rem;
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    color: var(--sushi-gray);
+    color: var(--sushi-white);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1090,452 +575,67 @@ body {
 }
 
 .quantity-option:hover {
-    background: var(--sushi-red-light);
-    color: var(--sushi-red-dark);
-}
-
-.quantity-option.active {
-    background: var(--sushi-red);
-    color: var(--sushi-white);
+    background: rgba(255,255,255,0.15);
     border-color: var(--sushi-red);
+    transform: translateY(-2px);
 }
 
-.option-price {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: inherit;
-}
-
-.menu-item-price {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--sushi-red);
-}
-
-/* BOTONES */
-.sushi-btn {
-    background: transparent;
-    border: 1px solid var(--sushi-red);
-    color: var(--sushi-red);
-    padding: 0.5rem 1.2rem;
-    border-radius: 25px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.sushi-btn:hover {
-    background: var(--sushi-red);
-    color: white;
-}
-
-.sushi-btn.small {
-    font-size: 0.9rem;
-}
-
-/* DROPDOWN */
-.dropdown {
-    position: relative;
-}
-
-.dropdown-toggle i {
-    margin-left: 6px;
-    font-size: 0.8rem;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 110%;
-    right: 0;
-    background: rgba(0, 0, 0, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    padding: 0.5rem 0;
-    display: none;
-    min-width: 180px;
-    text-align: right;
-}
-
-.dropdown-menu a {
-    display: block;
-    color: var(--sushi-white);
-    padding: 0.6rem 1rem;
-    text-decoration: none;
-    transition: background 0.3s;
-}
-
-.dropdown-menu a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--sushi-red-light);
-}
-
-/* Mostrar menú al pasar el mouse */
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .nav-menu {
-        display: none;
-    }
-
-    .sushi-logo img {
-        height: 70px;
-    }
-}
-
-/* === NAVBAR === */
-.sushi-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    backdrop-filter: blur(12px);
-    background: rgba(0, 0, 0, 0.4);
-    /* transparente oscuro */
-    border-bottom: none;
-    /* si no quieres línea */
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-    min-height: 80px;
-}
-
-
-.sushi-nav.scrolled {
-    background: rgba(0, 0, 0, 0.75);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1.5rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* Logo centrado en el eje */
-.sushi-logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-}
-
-.logo-img {
-    height: 70px;
-    width: auto;
-    transition: transform 0.3s ease;
-}
-
-.logo-img:hover {
-    transform: scale(1.05);
-}
-
-/* Secciones a los costados */
-.nav-left,
-.nav-right {
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-}
-
-/* En pantallas pequeñas, se alinean horizontalmente */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .nav-left,
-    .nav-right {
-        gap: 1rem;
-    }
-}
-
-/* Estilos de links */
-.nav-link {
-    color: #fff;
-    text-decoration: none;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-    font-size: 1rem;
-    position: relative;
-    transition: color 0.3s ease;
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -3px;
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    width: 70%;
-    height: 2px;
-    background-color: #e74c3c;
-    transition: transform 0.3s ease;
-}
-
-.nav-link:hover {
-    color: #e74c3c;
-}
-
-.nav-link:hover::after {
-    transform: translateX(-50%) scaleX(1);
-}
-
-/* Botón "Ingresar" destacado */
-.ingresar-btn {
-    padding: 0.5rem 1.2rem;
-    border: 1px solid #e74c3c;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-}
-
-.ingresar-btn:hover {
-    background-color: #e74c3c;
-    color: #fff;
-    border-color: #e74c3c;
-}
-
-/* --- Navbar logo fix --- */
-.sushi-logo img {
-    height: 70px;
-    /* ajusta el alto del logo */
-    width: auto;
-    /* mantiene proporciones */
-    object-fit: contain;
-    transition: transform 0.3s ease;
-}
-
-.sushi-logo img:hover {
-    transform: scale(1.05);
-    /* efecto sutil al pasar el mouse */
-}
-
-/* === LOGIN PAGE STYLES === */
-
-body.login-page {
-    background: linear-gradient(to bottom right, #fffdf8, #f5ebe0);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.login-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 2rem;
-}
-
-.login-card {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    padding: 3rem 2rem;
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
-
-.login-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: #222;
-}
-
-.login-subtitle {
-    color: #777;
-    margin-bottom: 2rem;
-}
-
-.form-group {
-    text-align: left;
-    margin-bottom: 1.2rem;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 500;
-    color: #444;
-    margin-bottom: 0.3rem;
-}
-
-.form-input {
-    width: 100%;
-    padding: 0.7rem 1rem;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 0.95rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #d72638;
-    box-shadow: 0 0 5px rgba(215, 38, 56, 0.3);
-}
-
-.login-btn {
-    width: 100%;
-    margin-top: 1rem;
-    padding: 0.9rem;
-    font-size: 1rem;
-    border-radius: 10px;
-}
-
-.login-footer {
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: #555;
-}
-
-.login-link {
-    color: #d72638;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.login-link:hover {
-    text-decoration: underline;
-}
-
-.form-error {
-    background: #1f1e1e;
-    border: 1px solid #ffb3b3;
-    color: #a60000;
-    padding: 0.7rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-}
-
-.about-section {
-    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-    color: var(--sushi-white);
-}
-
-.about-content {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 3rem;
-    align-items: start;
-}
-
-.about-text {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-text:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(220, 38, 38, 0.3);
-}
-
-.about-text p {
-    font-size: 1.1rem;
-    color: var(--sushi-gray-light);
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
-}
-
-.about-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-}
-
-.about-photo {
-    width: 100%;
-    height: 180px;
-    background-size: cover;
-    background-position: center;
-    border-radius: var(--border-radius);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-photo:hover {
-    transform: scale(1.05) rotateY(3deg);
-    box-shadow: 0 15px 30px rgba(220, 38, 38, 0.4);
-}
-
-.about-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.2rem;
-    margin-top: 3rem;
-}
-
-.about-photo {
-    width: 100%;
-    height: 250px;
-    /* Antes 180px, ahora más alto */
-    background-size: cover;
-    background-position: center;
-    border-radius: var(--border-radius);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-photo:hover {
-    transform: scale(1.05);
-    box-shadow: 0 15px 30px rgba(220, 38, 38, 0.4);
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .about-gallery {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    }
-
-    .about-photo {
-        height: 200px;
-        /* Ajuste para móviles */
-    }
-}
-
-.
-
-/* ESTILOS PARA QUANTITY OPTIONS */
-.quantity-option {
-    transition: all 0.3s ease !important;
-    cursor: pointer !important;
-}
-
-.quantity-option:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid var(--sushi-red) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3) !important;
-}
-
-/* Reset de los estilos inline */
-button.quantity-option[style] {
-    padding: 0.5rem 0.8rem !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
-    border-radius: 0.5rem !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    color: var(--sushi-white) !important;
-    cursor: pointer !important;
-    transition: all 0.3s ease !important;
-}
-
-/* CLICK - Efecto de selección MÁS VISIBLE */
 .quantity-option.active {
-    background: rgba(255, 0, 0, 0.3) !important;
-    border: 2px solid var(--sushi-red) !important;
-    color: white !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4) !important;
+    background: rgba(255,0,0,0.3);
+    border-color: var(--sushi-red);
+    color: var(--sushi-white);
+    box-shadow: 0 4px 15px rgba(255,0,0,0.4);
 }
 
-/* MEJORAR ESTILO DEL CARTEL DE CONFIRMACIÓN */
+.quantity-option.in-cart {
+    background: var(--sushi-red) !important;
+    border-color: var(--sushi-red) !important;
+    color: var(--sushi-white) !important;
+}
+
+.quantity-option.in-cart.active {
+    background: #ff3333 !important;
+    border-color: #ff0000 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 0 20px rgba(255,0,0,0.6) !important;
+    animation: pulse 0.3s ease;
+}
+
+.quantity-option.in-cart::after {
+    content: var(--cart-count, "✓");
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 2px solid var(--sushi-black);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+.quantity-option.in-cart.adding-more::after {
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: scale(1); }
+    40% { transform: scale(1.3); }
+    60% { transform: scale(1.1); }
+}
+
+/* ========== MODALES Y NOTIFICACIONES ========== */
 .cart-confirmation {
     position: fixed;
     top: 20px;
@@ -1544,13 +644,12 @@ button.quantity-option[style] {
     color: white;
     padding: 1rem 1.5rem;
     border-radius: 0.8rem;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     z-index: 10000;
     animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255,255,255,0.2);
     backdrop-filter: blur(10px);
-    font-family: inherit;
     min-width: 250px;
     text-align: center;
 }
@@ -1559,6 +658,8 @@ button.quantity-option[style] {
     opacity: 0.9;
     font-weight: 400;
     font-size: 0.85rem;
+    display: block;
+    margin-top: 0.3rem;
 }
 
 @keyframes slideIn {
@@ -1566,76 +667,40 @@ button.quantity-option[style] {
         transform: translateX(100%) translateY(-20px);
         opacity: 0;
     }
-
     to {
         transform: translateX(0) translateY(0);
         opacity: 1;
     }
 }
 
-/* MEJORAR FEEDBACK VISUAL PARA SEGUNDO CLICK */
-.quantity-option.in-cart.active {
-    background: #ff3333 !important;
-    border: 2px solid #ff0000 !important;
-    transform: scale(1.05) !important;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6) !important;
-    animation: pulse 0.3s ease;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.08);
-    }
-
-    100% {
-        transform: scale(1.05);
-    }
-}
-
-/* Efecto especial cuando se agrega más unidades */
-.quantity-option.in-cart.adding-more::after {
-    animation: bounce 0.5s ease;
-}
-
-@keyframes bounce {
-
-    0%,
-    20%,
-    50%,
-    80%,
-    100% {
-        transform: scale(1);
-    }
-
-    40% {
-        transform: scale(1.3);
-    }
-
-    60% {
-        transform: scale(1.1);
-    }
-}
-
-/* MODAL DE AGRADECIMIENTO */
-.thank-you-modal {
+#cart-modal {
     display: none;
-    /* OCULTO POR DEFECTO */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+}
+
+#cart-modal.active {
+    display: block;
+}
+
+.thank-you-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
     z-index: 10000;
 }
 
 .thank-you-modal.show {
     display: block;
-    /* VISIBLE CUANDO TIENE LA CLASE */
     animation: fadeIn 0.5s ease;
 }
 
@@ -1648,8 +713,8 @@ button.quantity-option[style] {
     padding: 3rem;
     border-radius: 1.5rem;
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     max-width: 500px;
     width: 90%;
     color: white;
@@ -1658,7 +723,6 @@ button.quantity-option[style] {
 .thank-you-logo {
     max-width: 150px;
     margin: 0 auto 1.5rem;
-    display: block;
 }
 
 .thank-you-logo img {
@@ -1670,7 +734,6 @@ button.quantity-option[style] {
 .thank-you-title {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: var(--sushi-white);
     font-weight: 600;
 }
 
@@ -1689,8 +752,8 @@ button.quantity-option[style] {
     border-radius: 0.5rem;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
     font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .thank-you-close:hover {
@@ -1699,101 +762,486 @@ button.quantity-option[style] {
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ========== FOOTER ========== */
+.sushi-footer {
+    background: var(--sushi-black);
+    color: var(--sushi-white);
+    padding: 4rem 0 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-heading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--sushi-white);
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-link {
+    color: var(--sushi-gray-light);
+    text-decoration: none;
+    margin-bottom: 0.8rem;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: var(--sushi-red);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 2rem;
+    text-align: center;
+    opacity: 0.7;
+}
+/* ========== FOOTER RESPONSIVE MÁS COMPACTO ========== */
+
+@media (max-width: 768px) {
+    .sushi-footer {
+        padding: 2rem 0 1rem !important; /* Más pequeño: antes era 4rem 0 2rem */
     }
 
-    to {
-        opacity: 1;
+    .footer-grid {
+        gap: 1.5rem !important; /* Menos espacio entre columnas */
+        margin-bottom: 1.5rem !important;
+    }
+
+    .footer-grid > div {
+        padding: 0.5rem 0 !important; /* Menos padding interno en cada sección */
+    }
+
+    /* Reducir tamaño del logo en footer */
+    .footer-grid img {
+        height: 50px !important; /* Antes 80px */
+    }
+
+    /* Reducir espaciado de textos */
+    .footer-description {
+        margin: 0.5rem auto 0 !important; /* Menos margen superior */
+        font-size: 0.85rem !important;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.5rem !important; /* Antes 0.8rem */
+    }
+
+    .footer-bottom {
+        margin-top: 1.5rem !important; /* Antes 3rem */
+        padding-top: 1rem !important; /* Antes 2rem */
+        font-size: 0.8rem !important;
+    }
+
+    /* Ocultar badge del footer en móvil (opcional) */
+    .footer-grid .sushi-badge {
+        display: none;
     }
 }
 
-/* /* ===== RESPONSIVE COMPACTO ===== */
-
-/* MÓVILES - Estructura compacta */
-@media (max-width: 768px) {
-    .nav-container {
-        padding: 0.5rem 1rem;
-        position: relative;
-        min-height: 70px; /* Mucho más compacto */
-        display: flex;
-        justify-content: space-between;
-        align-items: center; /* Centrado vertical general */
+@media (max-width: 480px) {
+    .sushi-footer {
+        padding: 1.5rem 0 0.5rem !important;
     }
 
+    .footer-heading {
+        font-size: 1rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+
+    .footer-grid img {
+        height: 40px !important;
+    }
+}
+/* ========== ESTILOS EXCLUSIVOS FORMULARIO DE CONTACTO ========== */
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 4rem;
+}
+
+.contact-form-wrapper {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.contact-form-wrapper h3 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--sushi-white);
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+.contact-form {
+    display: grid;
+    gap: 2rem;
+}
+
+.contact-form > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    width: 100%;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    color: var(--sushi-white);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem 1.2rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--sushi-white);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--sushi-red);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 140px;
+}
+
+select.form-input {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+}
+
+/* Tarjetas de información de contacto */
+.contact-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.whatsapp-card {
+    background: linear-gradient(135deg, var(--sushi-black) 0%, #1a1a1a 100%);
+    border-radius: var(--border-radius);
+    padding: 2.5rem;
+    text-align: center;
+    border: 2px solid var(--sushi-red);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.whatsapp-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(220, 38, 38, 0.2);
+}
+
+.info-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    border-left: 4px solid var(--sushi-red);
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.map-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive específico para contacto */
+@media (max-width: 968px) {
+    .contact-content {
+        grid-template-columns: 1fr !important;
+        gap: 3rem !important;
+    }
+    
+    .contact-form > div {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-form-wrapper {
+        padding: 2rem;
+    }
+    
+    .whatsapp-card,
+    .info-card,
+    .map-card {
+        padding: 1.5rem;
+    }
+}
+/* ========== RESPONSIVE ÚNICO (un solo bloque por breakpoint) ========== */
+@media (max-width: 768px) {
+    /* Navbar */
+    .navbar-backdrop {
+        height: 80px;
+    }
+    
+    .nav-container {
+        grid-template-columns: 1fr auto 1fr;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        min-height: 70px;
+    }
+    
     .nav-left,
     .nav-right {
-        display: flex;
         flex-direction: column;
-        gap: 0.2rem; /* Menos espacio entre links */
-        z-index: 5;
-        position: relative;
-        min-width: 70px;
-        justify-content:  space-between; /* Centra el grupo de links verticalmente */
-        height: 50%; /* Usa toda la altura disponible */
+        gap: 0.3rem;
     }
-
-    .nav-left {
-        order: 1;
-        align-items: flex-start;
-        margin-right: auto;
+    
+    .logo-img {
+        height: 50px;
     }
-
-    .nav-right {
-        order: 3;
-        align-items: flex-start;
-        margin-left: auto;
-    }
-
-    .sushi-logo {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1;
-        order: 2;
-    }
-
+    
     .nav-link {
         font-size: 0.8rem;
         padding: 0.2rem 0.6rem;
-        white-space: nowrap;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 12px;
-        backdrop-filter: blur(5px);
-        line-height: 1.2; /* Texto más compacto */
     }
-
-    .logo-img {
-        height: 50px; /* Logo más pequeño */
-        opacity: 0.9;
+    
+    main {
+        padding-top: 80px !important;
     }
-
-    .ingresar-btn {
-        padding: 0.2rem 0.6rem;
-        font-size: 0.75rem;
+    
+    /* Componentes */
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    /* Carrito móvil */
+    .cart-desktop {
+        display: none !important;
+    }
+    
+    .cart-floating-btn {
+        display: flex;
     }
 }
 
-/* MÓVILES PEQUEÑOS - Ultra compacto */
 @media (max-width: 480px) {
-    .nav-container {
-        padding: 0.3rem 0.8rem;
-        min-height: 60px; /* Aún más compacto */
+    .navbar-backdrop {
+        height: 65px;
     }
-
+    
+    .nav-container {
+        min-height: 60px;
+        padding: 0.3rem 0.5rem;
+        gap: 0.3rem;
+    }
+    
     .nav-link {
         font-size: 0.75rem;
-        padding: 0.15rem 0.5rem;
+        padding: 0.15rem 0.4rem;
     }
-
+    
+    main {
+        padding-top: 65px !important;
+    }
+    
     .logo-img {
         height: 45px;
     }
-
-    .nav-left,
-    .nav-right {
-        gap: 0.1rem;
-        min-width: 70px;
+    
+    .section-title {
+        font-size: 1.8rem;
     }
+    
+    .cart-floating-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+/* ========== LOGIN Y FORMULARIOS ========== */
+.login-page body {
+    background: linear-gradient(to bottom right, #fffdf8, #f5ebe0);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    background: var(--sushi-white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    padding: 3rem 2rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 1.2rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 500;
+    color: var(--sushi-gray);
+    margin-bottom: 0.3rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--sushi-red);
+    box-shadow: 0 0 5px rgba(215, 38, 56, 0.3);
+}
+
+.login-btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.9rem;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+.form-error {
+    background: #1f1e1e;
+    border: 1px solid #ffb3b3;
+    color: #a60000;
+    padding: 0.7rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+/* ========== SECCIÓN ESPECIALIDADES (Homepage) ========== */
+
+/* Fondo blanco para la sección de productos */
+.sushi-section:not(.section-dark) {
+    background: var(--sushi-white);
+    color: var(--sushi-black);
+}
+
+/* Grid de productos */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3rem;
+}
+
+/* Cards de productos */
+.product-card {
+    background: var(--sushi-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    border: 1px solid var(--sushi-gray-light);
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen del producto */
+.product-image {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Contenido de la card */
+.product-content {
+    padding: 1.5rem;
+}
+
+.product-card .product-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--sushi-black);
+}
+
+.product-card .product-description {
+    color: var(--sushi-gray);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Para la sección de menú (si usas esa clase) */
+.menu-section {
+    background: linear-gradient(135deg, var(--sushi-black) 0%, #1a1a1a 100%);
+    color: var(--sushi-white);
 }
