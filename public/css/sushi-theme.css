@@ -214,7 +214,7 @@ body {
 main {
     display: block;
     margin-top: 0 !important;
-    padding-top: 80px !important;
+    padding-top: 0px !important;
 }
 
 .sushi-section {
@@ -239,7 +239,7 @@ main {
     background-position: center;
     display: flex;
     align-items: center;
-    padding: 8rem 0 6rem;
+    padding: 6rem 0 4rem;
 }
 
 .hero-overlay {

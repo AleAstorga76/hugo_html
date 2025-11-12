@@ -214,7 +214,7 @@ body {
 main {
     display: block;
     margin-top: 0 !important;
-    padding-top: 80px !important;
+    padding-top: 50px !important;
 }
 
 .sushi-section {
@@ -239,7 +239,7 @@ main {
     background-position: center;
     display: flex;
     align-items: center;
-    padding: 8rem 0 6rem;
+    padding: 6rem 0 4rem;
 }
 
 .hero-overlay {
@@ -845,7 +845,7 @@ main {
     .footer-bottom {
         margin-top: 1.5rem !important; /* Antes 3rem */
         padding-top: 1rem !important; /* Antes 2rem */
-        font-size: 0.8rem !important;
+        font-size: 0.5rem !important;
     }
 
     /* Ocultar badge del footer en móvil (opcional) */
@@ -1028,14 +1028,14 @@ select.form-input {
 @media (max-width: 768px) {
     /* Navbar */
     .navbar-backdrop {
-        height: 80px;
+        height: 50px;
     }
     
     .nav-container {
         grid-template-columns: 1fr auto 1fr;
         gap: 0.5rem;
         padding: 0.5rem 1rem;
-        min-height: 70px;
+        min-height: 50px;
     }
     
     .nav-left,
@@ -1054,7 +1054,7 @@ select.form-input {
     }
     
     main {
-        padding-top: 80px !important;
+        padding-top: 30px !important;
     }
     
     /* Componentes */
@@ -1099,7 +1099,7 @@ select.form-input {
     }
     
     main {
-        padding-top: 65px !important;
+        padding-top: 50px !important;
     }
     
     .logo-img {

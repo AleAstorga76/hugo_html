@@ -32,7 +32,8 @@
             "symfony/runtime": true
         },
         "bump-after-update": true,
-        "sort-packages": true
+        "sort-packages": true,
+        "preferred-install": "dist"
     },
     "autoload": {
         "psr-4": {
